@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marinería Básica — Bootcamp Examen 🪖</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg0:#080c14;--bg1:#0d1420;--bg2:#131c2e;--bg3:#1a2540;--bg4:#1f2d4a;
+  --border:rgba(100,140,220,0.15);--border2:rgba(100,140,220,0.28);
+  --gold:#e8b84b;--gold2:#f5d07a;--cyan:#4dd4e8;--cyan2:#7de8f5;
+  --green:#3ecf8e;--red:#f56565;--text:#e8eef8;--text2:#94a3be;--text3:#5f7394;
+  --accent:#4a90e8;--accent2:#6aaaf5;--r:12px;--r2:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg0);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(74,144,232,0.03)1px,transparent 1px),linear-gradient(90deg,rgba(74,144,232,0.03)1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+body::after{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(74,144,232,0.12),transparent),radial-gradient(ellipse 60% 40% at 90% 100%,rgba(77,212,232,0.08),transparent);pointer-events:none;}
+.screen{position:relative;z-index:1;display:none;min-height:100vh;}
+.screen.active{display:flex;flex-direction:column;align-items:center;}
+h1,h2,h3,.font-display{font-family:'Syne',sans-serif;}
+
+/* ── HOME ── */
+#screen-home{justify-content:flex-start;padding:50px 20px 80px;}
+.home-hero{text-align:center;max-width:760px;width:100%;margin-bottom:48px;}
+.home-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(232,184,75,0.1);border:1px solid rgba(232,184,75,0.3);color:var(--gold);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:40px;margin-bottom:20px;}
+.home-title{font-size:clamp(2.2rem,5.5vw,3.8rem);font-weight:800;line-height:1.08;letter-spacing:-1px;margin-bottom:14px;background:linear-gradient(135deg,#e8eef8 0%,#7bb8f5 50%,#4dd4e8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.home-subtitle{color:var(--text2);font-size:1rem;line-height:1.6;max-width:580px;margin:0 auto 28px;}
+.home-stats{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;}
+.stat-item{text-align:center;}
+.stat-num{font-family:'Syne',sans-serif;font-size:2rem;font-weight:700;color:var(--gold);}
+.stat-label{font-size:0.75rem;color:var(--text3);letter-spacing:1px;text-transform:uppercase;}
+.section-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text3);margin-bottom:18px;text-align:center;}
+.topics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;width:100%;max-width:900px;margin-bottom:36px;}
+.topic-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:22px;cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden;}
+.topic-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--tc,rgba(74,144,232,0.06)),transparent);}
+.topic-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.4);}
+.topic-card.selected{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 12px 40px rgba(232,184,75,0.15);}
+.topic-card.selected::after{content:'✓';position:absolute;top:12px;right:14px;background:var(--gold);color:var(--bg0);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+.tc-icon{font-size:1.8rem;margin-bottom:10px;}
+.tc-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:5px;}
+.tc-count{font-size:0.78rem;color:var(--text3);}
+.tc-tag{display:inline-block;margin-top:10px;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;background:rgba(74,144,232,0.1);color:var(--accent2);}
+.modes-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;width:100%;max-width:640px;margin-bottom:30px;}
+.mode-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;cursor:pointer;transition:all 0.2s;text-align:left;}
+.mode-card:hover{border-color:var(--border2);background:var(--bg3);}
+.mode-card.selected{border-color:var(--cyan);background:rgba(77,212,232,0.06);}
+.mode-icon{font-size:1.5rem;margin-bottom:7px;}
+.mode-name{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;margin-bottom:3px;}
+.mode-desc{font-size:0.75rem;color:var(--text3);}
+.btn-start{background:linear-gradient(135deg,var(--gold) 0%,#f5a623 100%);color:var(--bg0);font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;letter-spacing:0.5px;padding:15px 48px;border:none;border-radius:var(--r);cursor:pointer;transition:all 0.2s;box-shadow:0 4px 20px rgba(232,184,75,0.3);}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(232,184,75,0.4);}
+.btn-start:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+.btn-ghost{margin-top:12px;background:transparent;color:var(--text3);border:1px solid var(--border);border-radius:var(--r2);font-size:0.85rem;padding:10px 22px;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.btn-ghost:hover{color:var(--text2);border-color:var(--border2);}
+
+/* ── QUIZ ── */
+#screen-quiz{justify-content:flex-start;padding:0;}
+.quiz-topbar{width:100%;background:var(--bg1);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+.quiz-topbar-left{display:flex;align-items:center;gap:18px;}
+.quiz-progress-text{font-family:'Syne',sans-serif;font-size:0.82rem;color:var(--text2);}
+.quiz-score-badge{background:rgba(62,207,142,0.12);border:1px solid rgba(62,207,142,0.25);color:var(--green);font-family:'Syne',sans-serif;font-size:0.82rem;font-weight:700;padding:4px 12px;border-radius:20px;}
+.timer-badge{background:rgba(245,101,101,0.1);border:1px solid rgba(245,101,101,0.25);color:var(--red);font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;padding:4px 14px;border-radius:20px;display:none;}
+.timer-badge.urgent{animation:pulse 0.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+.btn-exit{background:rgba(245,101,101,0.1);border:1px solid rgba(245,101,101,0.2);color:var(--red);font-size:0.8rem;padding:6px 16px;border-radius:var(--r2);cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.btn-exit:hover{background:rgba(245,101,101,0.2);}
+.progress-bar-wrap{width:100%;height:3px;background:rgba(255,255,255,0.06);}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));transition:width 0.4s ease;}
+.quiz-body{width:100%;max-width:720px;padding:40px 24px;margin:0 auto;}
+.q-meta{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.q-num{font-family:'Syne',sans-serif;font-size:0.82rem;color:var(--text3);}
+.q-topic-pill{font-size:0.75rem;padding:3px 12px;border-radius:20px;font-weight:600;letter-spacing:0.5px;}
+.q-text{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;line-height:1.4;margin-bottom:28px;color:var(--text);}
+.options-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
+.option-btn{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:14px 18px;text-align:left;cursor:pointer;transition:all 0.18s;display:flex;align-items:center;gap:14px;font-family:'DM Sans',sans-serif;font-size:0.95rem;color:var(--text);}
+.option-btn:hover:not(:disabled){border-color:var(--border2);background:var(--bg3);}
+.option-btn.correct{border-color:var(--green)!important;background:rgba(62,207,142,0.1)!important;color:var(--green)!important;}
+.option-btn.wrong{border-color:var(--red)!important;background:rgba(245,101,101,0.1)!important;color:var(--red)!important;}
+.option-btn.dimmed{opacity:0.35;}
+.opt-letter{width:28px;height:28px;border-radius:6px;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:0.75rem;font-weight:700;color:var(--text3);flex-shrink:0;}
+.insight-panel{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;display:none;gap:12px;align-items:flex-start;}
+.insight-panel.show{display:flex;}
+.insight-panel.correct-p{border-color:rgba(62,207,142,0.3);}
+.insight-panel.wrong-p{border-color:rgba(245,101,101,0.3);}
+.insight-icon{font-size:1.3rem;flex-shrink:0;margin-top:2px;}
+.insight-label{font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;margin-bottom:4px;}
+.insight-text{font-size:0.85rem;color:var(--text2);line-height:1.5;}
+.btn-next{display:none;background:linear-gradient(135deg,var(--accent),var(--cyan));color:#fff;font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;padding:13px 32px;border:none;border-radius:var(--r);cursor:pointer;transition:all 0.2s;align-items:center;gap:8px;margin:20px auto 0;width:fit-content;}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(74,144,232,0.4);}
+
+/* ── RESULTS ── */
+#screen-results{justify-content:flex-start;padding:60px 20px 80px;}
+.results-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:40px;max-width:680px;width:100%;text-align:center;margin-bottom:28px;}
+.ring-wrap{position:relative;width:140px;height:140px;margin:0 auto 20px;}
+.ring-wrap svg{transform:rotate(-90deg);}
+.ring-bg{fill:none;stroke:var(--bg4);stroke-width:10;}
+.ring-fill{fill:none;stroke:var(--accent);stroke-width:10;stroke-dasharray:502;stroke-dashoffset:502;transition:stroke-dashoffset 1.2s ease;stroke-linecap:round;}
+.ring-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;}
+.results-title{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;margin-bottom:8px;}
+.results-subtitle{color:var(--text2);font-size:0.9rem;margin-bottom:28px;}
+.results-stats{display:flex;justify-content:center;gap:32px;margin-bottom:28px;}
+.rs-item{text-align:center;}
+.rs-num{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:700;}
+.rs-label{font-size:0.72rem;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-top:3px;}
+.breakdown-section{background:var(--bg1);border:1px solid var(--border);border-radius:var(--r);padding:24px;max-width:680px;width:100%;margin-bottom:24px;}
+.breakdown-row{margin-bottom:14px;}
+.breakdown-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.breakdown-name{font-size:0.88rem;font-weight:500;}
+.breakdown-score{font-family:'Syne',sans-serif;font-size:0.82rem;font-weight:700;}
+.breakdown-bar{height:6px;background:var(--bg4);border-radius:3px;overflow:hidden;}
+.breakdown-bar-fill{height:100%;border-radius:3px;transition:width 0.8s ease;width:0%;}
+.tips-weak-title{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;margin-bottom:14px;color:var(--gold);}
+.tip-item{font-size:0.82rem;color:var(--text2);padding:8px 12px;background:var(--bg2);border-radius:var(--r2);margin-bottom:6px;border-left:3px solid var(--accent);}
+.results-btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;}
+.btn-retry{background:linear-gradient(135deg,var(--gold),#f5a623);color:var(--bg0);font-family:'Syne',sans-serif;font-weight:700;padding:13px 32px;border:none;border-radius:var(--r);cursor:pointer;transition:all 0.2s;}
+.btn-retry:hover{transform:translateY(-2px);}
+
+/* ── ANSWER KEY ── */
+#screen-answerkey{justify-content:flex-start;padding:40px 20px 80px;}
+.ak-header{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:900px;margin-bottom:28px;}
+.ak-title{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;}
+.ak-topic-section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);margin-bottom:20px;overflow:hidden;width:100%;max-width:900px;}
+.ak-topic-header{display:flex;align-items:center;gap:10px;padding:14px 20px;border-bottom:1px solid var(--border);}
+.ak-topic-icon{font-size:1.3rem;}
+.ak-topic-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;}
+.ak-questions-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:0;}
+.ak-item{padding:14px 18px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);}
+.ak-q-num{font-size:0.72rem;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.ak-q-text{font-size:0.85rem;color:var(--text2);margin-bottom:6px;line-height:1.4;}
+.ak-answer{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;color:var(--green);}
+.ak-insight-mini{font-size:0.75rem;color:var(--text3);margin-top:4px;line-height:1.4;}
+
+/* ── STUDY GUIDE ── */
+#screen-study{justify-content:flex-start;padding:40px 20px 80px;}
+.study-header{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:900px;margin-bottom:32px;}
+.study-title{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;}
+.study-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;width:100%;max-width:900px;}
+.study-tab{padding:8px 18px;border-radius:20px;border:1px solid var(--border);background:var(--bg2);color:var(--text3);font-size:0.82rem;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.study-tab.active{background:rgba(74,144,232,0.15);border-color:var(--accent);color:var(--accent2);}
+.study-tab:hover{border-color:var(--border2);color:var(--text2);}
+.study-content{width:100%;max-width:900px;}
+.study-panel{display:none;}
+.study-panel.active{display:block;}
+.study-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:28px;margin-bottom:20px;}
+.study-card h3{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:16px;color:var(--cyan);}
+.study-card p{color:var(--text2);font-size:0.9rem;line-height:1.6;margin-bottom:10px;}
+.study-card ul{color:var(--text2);font-size:0.9rem;line-height:1.8;padding-left:20px;}
+.study-card li{margin-bottom:4px;}
+.mnemonic-box{background:rgba(232,184,75,0.08);border:1px solid rgba(232,184,75,0.25);border-radius:var(--r2);padding:18px;margin:14px 0;}
+.mnemonic-box .mnemonic-title{font-family:'Syne',sans-serif;font-size:0.8rem;font-weight:700;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.mnemonic-box p{color:var(--gold2);font-size:0.95rem;font-style:italic;line-height:1.5;}
+.priority-list{counter-reset:priority;}
+.priority-list li{counter-increment:priority;list-style:none;display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);}
+.priority-list li::before{content:counter(priority);width:24px;height:24px;border-radius:50%;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:0.75rem;font-weight:700;color:var(--text3);flex-shrink:0;}
+.priority-list li:nth-child(1)::before{background:rgba(245,101,101,0.3);color:var(--red);}
+.priority-list li:nth-child(2)::before{background:rgba(245,101,101,0.2);color:#f5a085;}
+.priority-list li:nth-child(3)::before{background:rgba(232,184,75,0.2);color:var(--gold);}
+.priority-list li:nth-child(4)::before{background:rgba(74,144,232,0.2);color:var(--accent2);}
+.priority-list li:nth-child(5)::before{background:rgba(77,212,232,0.15);color:var(--cyan);}
+.priority-list li:nth-child(6)::before{background:rgba(62,207,142,0.15);color:var(--green);}
+.priority-list li:nth-child(7)::before{background:rgba(100,140,220,0.1);color:var(--text3);}
+.signal-grid{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:12px 0;font-size:0.88rem;}
+.signal-code{font-family:'Syne',sans-serif;font-weight:700;color:var(--cyan);white-space:nowrap;}
+.signal-meaning{color:var(--text2);}
+.svg-wrap{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:20px;margin:16px 0;display:flex;justify-content:center;align-items:center;overflow:hidden;}
+.svg-label{font-size:0.7rem;fill:var(--text3);font-family:'DM Sans',sans-serif;}
+.svg-title-text{font-size:0.85rem;fill:var(--text2);font-family:'Syne',sans-serif;font-weight:700;}
+table{width:100%;border-collapse:collapse;font-size:0.85rem;margin:12px 0;}
+th{font-family:'Syne',sans-serif;font-size:0.75rem;letter-spacing:1px;text-transform:uppercase;color:var(--text3);padding:8px 12px;border-bottom:2px solid var(--border);text-align:left;}
+td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text2);}
+td:first-child{font-weight:600;color:var(--text);}
+tr:hover td{background:rgba(255,255,255,0.02);}
+.badge-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;}
+.badge{padding:4px 12px;border-radius:20px;font-size:0.78rem;font-weight:600;font-family:'Syne',sans-serif;}
+.badge-blue{background:rgba(74,144,232,0.15);color:var(--accent2);border:1px solid rgba(74,144,232,0.2);}
+.badge-green{background:rgba(62,207,142,0.12);color:var(--green);border:1px solid rgba(62,207,142,0.2);}
+.badge-gold{background:rgba(232,184,75,0.12);color:var(--gold);border:1px solid rgba(232,184,75,0.2);}
+.badge-red{background:rgba(245,101,101,0.12);color:var(--red);border:1px solid rgba(245,101,101,0.2);}
+
+/* ── CONFETTI ── */
+#confettiWrap{position:fixed;top:50%;left:50%;pointer-events:none;z-index:999;}
+.confetti-piece{position:absolute;animation:confetti-fly var(--dur,3s) ease-out var(--del,0s) forwards;}
+@keyframes confetti-fly{0%{transform:translate(0,0) rotate(0deg);opacity:1;}100%{transform:translate(var(--dx,200px),400px) rotate(var(--dr,360deg));opacity:0;}}
+
+/* ── MISC ── */
+.q-count-badge{display:inline-block;font-size:0.72rem;padding:2px 8px;border-radius:10px;background:rgba(74,144,232,0.12);color:var(--accent2);font-family:'Syne',sans-serif;font-weight:700;margin-left:6px;}
+@media(max-width:600px){
+  .modes-grid{grid-template-columns:1fr 1fr;}.quiz-body{padding:24px 16px;}
+  .q-text{font-size:1.1rem;}.results-stats{gap:20px;}
+  .study-tabs{gap:6px;}.study-tab{font-size:0.75rem;padding:6px 12px;}
+}
+</style>
+</head>
+<body>
+<div id="confettiWrap"></div>
+
+<!-- ═══════════════════════════════ HOME ═══════════════════════════════ -->
+<div id="screen-home" class="screen active">
+  <div class="home-hero">
+    <div class="home-badge">⚓ MARINERÍA BÁSICA · BOOTCAMP</div>
+    <h1 class="home-title">Guía de Supervivencia<br>para el Examen</h1>
+    <p class="home-subtitle">24 horas para dominar la marinería. RIPA, fondeo, luces, señales, equipos de cubierta, veleros y todo lo que necesitas para aprobar.</p>
+    <div class="home-stats">
+      <div class="stat-item"><div class="stat-num">320+</div><div class="stat-label">Preguntas</div></div>
+      <div class="stat-item"><div class="stat-num">9</div><div class="stat-label">Módulos</div></div>
+      <div class="stat-item"><div class="stat-num">SVG</div><div class="stat-label">Ilustraciones</div></div>
+    </div>
+  </div>
+  <div class="section-label">— Selecciona los módulos a practicar —</div>
+  <div class="topics-grid" id="topicsGrid"></div>
+  <div class="section-label">— Modo de práctica —</div>
+  <div class="modes-grid">
+    <div class="mode-card" data-mode="quick" onclick="selectMode('quick')">
+      <div class="mode-icon">⚡</div>
+      <div class="mode-name">Rápido</div>
+      <div class="mode-desc">20 preguntas aleatorias</div>
+    </div>
+    <div class="mode-card" data-mode="full" onclick="selectMode('full')">
+      <div class="mode-icon">🎯</div>
+      <div class="mode-name">Completo</div>
+      <div class="mode-desc">Todos los temas</div>
+    </div>
+    <div class="mode-card" data-mode="timed" onclick="selectMode('timed')">
+      <div class="mode-icon">⏱️</div>
+      <div class="mode-name">Contrarreloj</div>
+      <div class="mode-desc">20 s por pregunta</div>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+    <button class="btn-start" id="btnStart" onclick="startQuiz()">Iniciar Quiz →</button>
+    <button class="btn-ghost" onclick="showStudyGuide()">📖 Guía de Estudio</button>
+    <button class="btn-ghost" onclick="showAnswerKey()">📋 Ver Respuestas</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ QUIZ ═══════════════════════════════ -->
+<div id="screen-quiz" class="screen">
+  <div class="quiz-topbar">
+    <div class="quiz-topbar-left">
+      <div class="quiz-progress-text" id="progressText">0 / 0</div>
+      <div class="quiz-score-badge" id="scoreDisplay">✓ 0</div>
+      <div class="timer-badge" id="timerDisplay">20</div>
+    </div>
+    <button class="btn-exit" onclick="exitQuiz()">✕ Salir</button>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+  <div class="quiz-body">
+    <div class="q-meta">
+      <span class="q-num" id="qNum">Pregunta 1</span>
+      <span class="q-topic-pill" id="qTopicPill"></span>
+    </div>
+    <div class="q-text" id="qText"></div>
+    <div class="options-grid" id="optionsGrid"></div>
+    <div class="insight-panel" id="insightPanel">
+      <div class="insight-icon" id="insightIcon">✅</div>
+      <div>
+        <div class="insight-label" id="insightLabel">¡Correcto!</div>
+        <div class="insight-text" id="insightText"></div>
+      </div>
+    </div>
+    <button class="btn-next" id="btnNext" onclick="nextQuestion()">Siguiente pregunta →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ RESULTS ═══════════════════════════════ -->
+<div id="screen-results" class="screen">
+  <div class="results-card">
+    <div class="ring-wrap">
+      <svg viewBox="0 0 180 180" width="140" height="140">
+        <circle class="ring-bg" cx="90" cy="90" r="80"/>
+        <circle class="ring-fill" id="ringFill" cx="90" cy="90" r="80"/>
+      </svg>
+      <div class="ring-pct" id="ringPct">0%</div>
+    </div>
+    <h2 class="results-title" id="resultsTitle">¡Resultado!</h2>
+    <p class="results-subtitle" id="resultsSubtitle"></p>
+    <div class="results-stats">
+      <div class="rs-item"><div class="rs-num" style="color:var(--green)" id="resStat1">0</div><div class="rs-label">Correctas</div></div>
+      <div class="rs-item"><div class="rs-num" style="color:var(--red)" id="resStat2">0</div><div class="rs-label">Incorrectas</div></div>
+      <div class="rs-item"><div class="rs-num" style="color:var(--text2)" id="resStat3">0</div><div class="rs-label">Total</div></div>
+    </div>
+    <div class="results-btns">
+      <button class="btn-retry" onclick="restartQuiz()">🔄 Reintentar</button>
+      <button class="btn-ghost" onclick="goHome()">← Inicio</button>
+      <button class="btn-ghost" onclick="showStudyGuide()">📖 Estudiar</button>
+    </div>
+  </div>
+  <div class="breakdown-section">
+    <h3 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:18px;">Resultado por módulo</h3>
+    <div id="breakdownContent"></div>
+    <div id="tipsWeak"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ ANSWER KEY ═══════════════════════════════ -->
+<div id="screen-answerkey" class="screen">
+  <div class="ak-header">
+    <h2 class="ak-title">📋 Respuestas Correctas</h2>
+    <button class="btn-ghost" onclick="goHome()">← Inicio</button>
+  </div>
+  <div id="akContent" style="width:100%;max-width:900px;"></div>
+</div>
+
+<!-- ═══════════════════════════════ STUDY GUIDE ═══════════════════════════════ -->
+<div id="screen-study" class="screen">
+  <div class="study-header">
+    <h2 class="study-title">📖 Guía de Estudio</h2>
+    <button class="btn-ghost" onclick="goHome()">← Inicio</button>
+  </div>
+  <div class="study-tabs" id="studyTabs"></div>
+  <div class="study-content" id="studyContent"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// TOPICS CONFIG
+// ═══════════════════════════════════════════════════════
+const TOPICS = [
+  {name:"Partes del Buque",icon:"🚢",color:"#4a90e8",tag:"ESTRUCTURA"},
+  {name:"Dimensiones y Medidas",icon:"📐",color:"#4dd4e8",tag:"MEDIDAS"},
+  {name:"Sistema de Fondeo",icon:"⚓",color:"#e8b84b",tag:"FONDEO"},
+  {name:"Equipos de Cubierta",icon:"🔧",color:"#3ecf8e",tag:"CUBIERTA"},
+  {name:"RIPA / COLREG",icon:"🗺️",color:"#f56565",tag:"REGLAS"},
+  {name:"Luces y Marcas",icon:"💡",color:"#f5d07a",tag:"LUCES"},
+  {name:"Señales Acústicas",icon:"🔊",color:"#a78bfa",tag:"SEÑALES"},
+  {name:"Tipos de Buques y Veleros",icon:"⛵",color:"#38bdf8",tag:"BUQUES"},
+  {name:"Sondaleza y Maniobras",icon:"🪢",color:"#fb923c",tag:"MANIOBRAS"}
+];
+
+// ═══════════════════════════════════════════════════════
+// QUESTIONS (320 total)
+// Format: {q, o:[4 options], a:correct_index(0-3), t:topic_index, i:insight}
+// ═══════════════════════════════════════════════════════
+const Q = [
+// ── TOPIC 0: Partes del Buque ──────────────────────────────
+{q:"¿Cómo se llama la extremidad delantera del casco?",o:["Popa","Amura","Proa","Aleta"],a:2,t:0,i:"La proa es la parte delantera del buque que corta el agua. La popa es la parte posterior."},
+{q:"¿Qué es la popa?",o:["La parte delantera","El costado derecho","La parte posterior del casco","La cubierta superior"],a:2,t:0,i:"La popa es la extremidad o sección posterior del casco. En el espejo de popa se lleva el nombre del buque."},
+{q:"¿Cuál es el costado izquierdo mirando de popa a proa?",o:["Estribor","Través","Crujía","Babor"],a:3,t:0,i:"Babor es siempre el costado izquierdo mirando hacia la proa. Estribor es el derecho. Truco: Babor = iZQuierdo (B vs Z)."},
+{q:"¿Cuál es el costado derecho mirando de popa a proa?",o:["Babor","Estribor","Amura","Aleta"],a:1,t:0,i:"Estribor es el costado derecho. Color verde en luces de navegación. Babor es el izquierdo, color rojo."},
+{q:"¿Qué es la crujía?",o:["El espacio entre cubiertas","Línea imaginaria eje longitudinal","La anchura máxima","El espejo de popa"],a:1,t:0,i:"La crujía es la línea imaginaria que pasa por el eje longitudinal del buque, dividiéndolo en dos mitades simétricas."},
+{q:"¿Cómo se llaman las 'costillas' del buque?",o:["Varengas","Baos","Cuadernas","Esloras"],a:2,t:0,i:"Las cuadernas son piezas estructurales curvas y transversales que nacen en la quilla y dan forma al casco, como las costillas del cuerpo humano."},
+{q:"¿Qué es el bao?",o:["Refuerzo transversal bajo quilla","Pieza longitudinal inferior","Viga transversal que sostiene cubiertas","Parte curva del casco"],a:2,t:0,i:"Los baos son vigas transversales que sostienen las cubiertas y dan firmeza a los costados, yendo de una banda a otra."},
+{q:"¿Qué es la varenga?",o:["Costado del buque","Cubierta principal","Pieza que refuerza la unión quilla-cuaderna","Mástil pequeño"],a:2,t:0,i:"La varenga es una pieza estructural curva colocada transversalmente para reforzar la unión de la quilla, la cuaderna y la sobrequilla."},
+{q:"¿Qué es la quilla?",o:["Pieza en proa que corta el agua","La cubierta principal","Pieza longitudinal inferior base del casco","Refuerzo lateral"],a:2,t:0,i:"La quilla es la columna vertebral del buque: pieza longitudinal de proa a popa en la parte inferior, de donde nacen las cuadernas."},
+{q:"¿Qué es la roda?",o:["Pieza en popa","Pieza que prolonga la quilla hacia proa","Refuerzo de cubierta","Costado de proa"],a:1,t:0,i:"La roda prolonga la quilla hacia la parte delantera (proa), formando el extremo de proa del casco."},
+{q:"¿Qué es el codaste?",o:["Pieza estructural en popa","Pieza en la quilla central","Refuerzo de cubierta","Pieza en proa"],a:0,t:0,i:"El codaste es la pieza estructural en la parte posterior (popa) de la embarcación, donde se apoya el timón."},
+{q:"¿Qué es el pantoque?",o:["La cubierta principal","La parte curva donde costado y fondo se unen","El fondo plano del buque","La regala"],a:1,t:0,i:"El pantoque es la parte curva del casco donde se unen el costado y el fondo. En él se acumulan las aguas de sentina."},
+{q:"¿Qué es la sentina?",o:["La cubierta más baja","Cavidad inferior donde se acumula agua filtrada","La bodega de carga","El tanque de combustible"],a:1,t:0,i:"La sentina es la cavidad inferior del buque, justo por encima de la quilla, donde se acumulan las aguas que se filtran al interior."},
+{q:"¿Qué es la sobrequilla?",o:["Cubierta adicional","Segunda quilla exterior","Pieza sobre las varengas que refuerza la quilla","Refuerzo de costado"],a:2,t:0,i:"La sobrequilla se coloca sobre las varengas, encima de la quilla, para reforzar la parte inferior del buque."},
+{q:"¿Cómo se llama la parte superior del costado?",o:["Trancanil","Borda","Regala","Cubierta"],a:1,t:0,i:"La borda es la parte superior del costado del buque, entre la cubierta y la regala."},
+{q:"¿Qué es la regala?",o:["Tapa de madera que cubre la borda","El costado del buque","La cubierta principal","El fondo del casco"],a:0,t:0,i:"La regala es la parte superior de la borda, que la cubre por su extremo. Es el remate superior del costado."},
+{q:"¿Qué es el espejo de popa?",o:["Un instrumento de navegación","La fachada plana de la popa donde va el nombre","La cubierta de popa","El mástil de popa"],a:1,t:0,i:"El espejo es la fachada que presenta la popa, donde se lleva el nombre de la embarcación y su puerto de matrícula."},
+{q:"¿Qué son las aletas del buque?",o:["Partes curvas de proa entre 45-60°","Partes a 45° con referencia a la popa","Los timones laterales","Las luces de costado"],a:1,t:0,i:"Las aletas son las partes de los costados ubicadas a 45° con referencia a la popa. No confundir con las amuras que están en proa."},
+{q:"¿Qué son las amuras?",o:["Partes de popa a 45°","Las anclas de amarre","Partes curvas de proa entre 45° y 60°","Los costados de través"],a:2,t:0,i:"Las amuras son las partes más curvas de los costados en la sección de proa, entre los 45° y 60°. Son la zona donde la proa se ensancha."},
+{q:"¿Qué es la cuaderna maestra?",o:["La cuaderna de proa","La cuaderna de mayor resistencia","La cuaderna en el punto de manga máxima","La primera cuaderna"],a:2,t:0,i:"La cuaderna maestra es la que se ubica en el punto de manga máxima del buque; define la sección más ancha de la nave."},
+{q:"¿Qué es la obra muerta?",o:["La parte sumergida del buque","La parte por encima de la línea de flotación","El casco dañado","La quilla"],a:1,t:0,i:"La obra muerta es la parte del buque por encima de la línea de flotación normal. La obra viva (carena) es la parte sumergida."},
+{q:"¿Cómo se llama la parte sumergida del buque?",o:["Obra muerta","Francobordo","Obra viva o Carena","Puntal"],a:2,t:0,i:"La obra viva o carena es la parte sumergida, por debajo de la línea de flotación. Es la que está en contacto permanente con el agua."},
+{q:"¿Qué es el coronamiento?",o:["El mástil principal","El canto superior del espejo de popa","La cubierta de proa","La regala delantera"],a:1,t:0,i:"El coronamiento es el canto superior del espejo de popa, punto donde se levanta el asta de la bandera."},
+{q:"¿Qué es la mediacubierta?",o:["La cubierta más alta","El espacio intermedio en cubierta entre proa y popa","La cubierta de carga","La cubierta de máquinas"],a:1,t:0,i:"La mediacubierta es el espacio intermedio en la cubierta principal, entre la proa y la popa."},
+{q:"¿Qué es el alcázar?",o:["Espacio en cubierta entre palo de popa y coronamiento","El puente de mando","La proa elevada","La bodega principal"],a:0,t:0,i:"El alcázar es el espacio de la cubierta superior entre el palo de popa y la entrada de la cámara alta o el coronamiento."},
+{q:"¿Qué es el combés?",o:["La bodega de carga","Espacio en cubierta desde mediacubierta hasta proa","El puente de gobierno","La sala de máquinas"],a:1,t:0,i:"El combés es el espacio en la cubierta principal desde la mediacubierta hasta la iniciación de la sección de proa."},
+{q:"¿Qué es el trancanil?",o:["Tipo de ancla","Pieza que une cubierta con forro exterior y cuadernas","Cabo de amarre","Luz de navegación"],a:1,t:0,i:"El trancanil es la pieza estructural longitudinal que une la cubierta con el forro exterior y las cuadernas, dando rigidez al conjunto."},
+{q:"Un buque 'escorado' significa que:",o:["Está varado en el fondo","Se inclina sobre una banda","Está fondeado","Navegando a vela"],a:1,t:0,i:"Escorado significa inclinado sobre una banda por carga, lastre, avería o acción del viento."},
+{q:"¿Qué es el arrufo de un buque?",o:["Inclinación lateral","Extremos de proa y popa más ALTOS que el centro","Extremos más bajos que el centro","Rotura de la quilla"],a:1,t:0,i:"El arrufo ocurre cuando los extremos de proa y popa son más altos que el centro. El quebranto es lo contrario: extremos más bajos."},
+{q:"¿Qué es el quebranto?",o:["Extremos más altos que el centro","Inclinación de babor","Extremos de proa y popa más BAJOS que el centro","Fallo del timón"],a:2,t:0,i:"El quebranto es la deformación donde los extremos quedan más bajos que el centro. El arrufo es lo opuesto."},
+{q:"Un buque 'apopado' tiene:",o:["Mayor calado a proa","Mayor calado a popa","Igual calado en ambos extremos","El timón averiado"],a:1,t:0,i:"Apopado = cala más de popa que de proa. Aproado = cala más de proa. Adrizado = equilibrado."},
+{q:"¿Qué significa que el buque esté 'adrizado'?",o:["Inclinado a estribor","En posición normal de equilibrio","Con avería en la quilla","Fondeado"],a:1,t:0,i:"Adrizado significa que el buque mantiene la posición normal de equilibrio, sin inclinarse hacia ninguna banda."},
+{q:"¿Cómo se llama el giro de un buque alrededor del ancla?",o:["Garreo","Borneo","Balanceo","Cabeceo"],a:1,t:0,i:"El borneo es el giro de un buque alrededor de su punto de sujeción (ancla o boya) por efecto del viento o corrientes."},
+{q:"¿Qué es encallar?",o:["Fondear voluntariamente","Contacto involuntario con el fondo","Amarrar al muelle","Perder el ancla"],a:1,t:0,i:"Encallar es el contacto involuntario de la embarcación con el fondo, impidiéndole seguir su marcha."},
+{q:"¿Qué es el casco?",o:["Solo el fondo del buque","El mástil principal","El cuerpo flotante del buque en contacto con el agua","La cubierta superior"],a:2,t:0,i:"El casco constituye el cuerpo propiamente dicho de la embarcación: es la parte flotante en contacto directo con el agua."},
+{q:"¿Qué es la deriva en navegación?",o:["Fondear en mar profundo","Desplazamiento lateral hacia sotavento por viento o corriente","Maniobra de giro","El rumbo del buque"],a:1,t:0,i:"La deriva es el desplazamiento lateral hacia sotavento causado por la acción del viento o la corriente sobre el buque."},
+{q:"¿Qué movimiento es el cabeceo?",o:["De un costado al otro","La proa y popa suben y bajan alternadamente","Giro sobre el ancla","Inclinación lateral permanente"],a:1,t:0,i:"El cabeceo es el movimiento vertical en que la proa y la popa suben y bajan alternadamente. El balanceo es el movimiento de lado a lado."},
+{q:"¿Qué es el forro del buque?",o:["El revestimiento exterior sobre las cuadernas","La cubierta superior","El fondo interior","La pintura del casco"],a:0,t:0,i:"El forro exterior es el revestimiento que cubre las cuadernas y da forma al casco, siendo la 'piel' exterior del buque."},
+
+// ── TOPIC 1: Dimensiones y Medidas ────────────────────────
+{q:"¿Qué es la eslora?",o:["La anchura del buque","La dimensión longitudinal (largo)","La altura del buque","El calado"],a:1,t:1,i:"La eslora es la longitud del buque. Existen varios tipos: eslora total, entre perpendiculares, de flotación y máxima."},
+{q:"¿Qué es la manga?",o:["La longitud del buque","La altura desde quilla a cubierta","La anchura del buque","La distancia quilla-flotación"],a:2,t:1,i:"La manga es la anchura del barco. La manga máxima es la mayor anchura del buque."},
+{q:"¿Qué es el puntal?",o:["La longitud","La anchura","Altura vertical de quilla a cubierta principal","El calado"],a:2,t:1,i:"El puntal es la altura del buque medida verticalmente desde la quilla hasta la cubierta principal o trancanil."},
+{q:"¿Qué es el calado?",o:["Altura total del buque","Distancia desde línea de flotación hasta la quilla","Anchura máxima","Longitud total"],a:1,t:1,i:"El calado es la distancia vertical entre la línea de flotación y la quilla. Indica cuánto se hunde el buque."},
+{q:"¿Qué es el francobordo?",o:["Distancia desde flotación hasta cubierta superior","Distancia desde quilla a flotación","La longitud libre","El puntal total"],a:0,t:1,i:"El francobordo es la distancia entre la línea de flotación y la cubierta superior. Francobordo + Calado = Puntal."},
+{q:"¿Qué es la guinda?",o:["El calado","La manga","Altura desde la flotación hasta el punto más alto del palo","El puntal"],a:2,t:1,i:"La guinda es la altura medida desde la línea de flotación hasta el punto más alto del palo mayor."},
+{q:"¿Qué indica el disco Plimsoll?",o:["La velocidad máxima","El límite máximo de carga según la zona de navegación","El calado vacío","La eslora oficial"],a:1,t:1,i:"El disco Plimsoll (marcas de francobordo) indica el límite máximo de carga permitido según la zona y estación del año."},
+{q:"¿Qué significa la marca 'WNA' en el disco Plimsoll?",o:["Agua de mar tropical","Agua dulce","Invierno en el Atlántico Norte","Verano"],a:2,t:1,i:"WNA = Winter North Atlantic (Invierno en el Atlántico Norte), la condición más restrictiva de carga."},
+{q:"¿Qué significa la marca 'TF'?",o:["Tropical Fresh water — agua dulce tropical","Timber Freight — carga de madera","Total Freeboard","Tropical Frost"],a:0,t:1,i:"TF = Tropical Fresh water (Agua dulce tropical). F = Fresh water (otras zonas), T = Tropical seawater, S = Summer, W = Winter."},
+{q:"¿Qué es el desplazamiento de un buque?",o:["Solo el peso del casco","El peso total del buque incluyendo todo lo que lleva","El volumen de la bodega","La velocidad de crucero"],a:1,t:1,i:"El desplazamiento es el peso total del buque (propio + carga + combustible + todo), equivalente al peso del volumen de agua desalojado."},
+{q:"¿Qué es el porte o DWT?",o:["Peso del buque vacío","Peso del agua desalojada","Capacidad máxima de carga útil","La velocidad económica"],a:2,t:1,i:"El porte (Dead Weight Tonnage, DWT) indica el peso máximo de carga útil, combustible, agua y tripulación que puede llevar el buque."},
+{q:"Las escalas de calado en PIES usan notación:",o:["Arábiga con números pares","Romana con números consecutivos","Arábiga con números impares","Decimal"],a:1,t:1,i:"Escala en pies: notación romana, números consecutivos. Escala en decímetros: notación arábiga, números pares."},
+{q:"¿Qué es la eslora entre perpendiculares?",o:["Eslora máxima total","Medida entre perpendicular de proa y popa","Eslora en la línea de flotación","Eslora del casco sin apéndices"],a:1,t:1,i:"La eslora entre perpendiculares (Lpp) se mide entre la perpendicular de proa y la de popa, y es la medida oficial para la mayoría de cálculos."},
+{q:"¿Dónde se pintan las escalas de calado?",o:["Solo en la proa","En las perpendiculares de proa, popa y centro","Solo en la popa","Solo en los costados"],a:1,t:1,i:"Las escalas de calado se pintan en las perpendiculares de proa, popa y centro del buque para poder leerlas desde tierra o agua."},
+{q:"Si un buque está 'aproado', ¿qué significa?",o:["Mayor calado a popa","El buque cabecea hacia proa","Mayor calado a proa","El timón apunta a proa"],a:2,t:1,i:"Aproado = cala más de proa que de popa. Apopado = cala más de popa. Adrizado = calados iguales."},
+{q:"¿Qué es el tonelaje bruto (GT)?",o:["Peso total del casco","Peso total del buque incluyendo carga","Medida del volumen interno total del buque","La carga máxima"],a:2,t:1,i:"El tonelaje bruto (GT) es una medida del volumen interno total del buque, no un peso. El tonelaje neto excluye espacios no productivos."},
+{q:"¿Qué es la autonomía de un buque?",o:["Distancia máxima que puede recorrer sin repostar","Velocidad máxima","Tiempo máximo que puede navegar sin reabastecerse","La capacidad de carga"],a:2,t:1,i:"La autonomía es el tiempo máximo que el buque puede navegar sin necesidad de reabastecerse de combustible."},
+{q:"¿Qué es el radio de acción?",o:["Tiempo sin repostar","Distancia máxima de ida y vuelta sin reabastecerse","El alcance del radar","El área de maniobra"],a:1,t:1,i:"El radio de acción es la distancia máxima que puede recorrer y regresar a su punto de partida sin reabastecerse."},
+{q:"¿Qué es el círculo evolutivo?",o:["El radio de fondeo","Trayectoria del buque al girar con timón a ángulo fijo","El área de maniobra del ancla","La trayectoria de la corriente"],a:1,t:1,i:"El círculo evolutivo representa la trayectoria del buque cuando gira con el timón a un ángulo fijo; evalúa su maniobrabilidad."},
+{q:"¿Qué es la estabilidad del buque?",o:["Su velocidad máxima","Resistencia a hundirse","Capacidad de volver a la posición de equilibrio","La rigidez del casco"],a:2,t:1,i:"La estabilidad es la capacidad del buque de volver a su posición de equilibrio tras ser desplazado por el oleaje u otras fuerzas."},
+{q:"¿Qué es el barlovento?",o:["Hacia donde va el viento","La dirección de la corriente","De donde viene el viento","El lado de sotavento"],a:2,t:1,i:"Barlovento es la dirección de donde viene el viento. Sotavento es hacia donde va el viento."},
+{q:"¿Qué es 'abarloar'?",o:["Fondear","Colocar un buque paralelo y amarrado a otro","Varar en la playa","Maniobrar con ancla"],a:1,t:1,i:"Abarloar es colocar un buque con el costado paralelo a otro buque y amarrarlo a él."},
+{q:"¿Qué es 'acoderar'?",o:["Amarrar a una sola boya","Amarrar por proa y popa a dos muertos para mantener dirección","Fondear con dos anclas","Maniobrar en canal estrecho"],a:1,t:1,i:"Acoderar es amarrar un buque por proa y popa a dos muertos para mantener una dirección determinada sin importar viento o marea."},
+{q:"¿Qué es la flotabilidad?",o:["La velocidad de crucero","La resistencia del casco","Propiedad que permite mantenerse a flote hasta cierto calado","La estabilidad lateral"],a:2,t:1,i:"La flotabilidad es la propiedad que permite al buque sumergirse solo hasta un cierto calado y mantenerse a flote."},
+{q:"¿Qué es la estanqueidad?",o:["La velocidad en aguas calmadas","Cualidad que evita entrada de agua al interior","La resistencia al balanceo","La solidez del casco"],a:1,t:1,i:"La estanqueidad es la cualidad que evita la entrada de agua al interior del barco bajo cualquier condición climática."},
+
+// ── TOPIC 2: Sistema de Fondeo y Anclas ─────────────────────
+{q:"¿Cuántos metros equivale aproximadamente un grillete de cadena?",o:["15 metros","20 metros","27,5 metros","30 metros"],a:2,t:2,i:"Un grillete de cadena equivale a 27,5 metros (algunos textos indican 27 eslabones). Es la unidad de longitud de cadena de ancla."},
+{q:"¿Cuántos eslabones tiene un grillete de cadena?",o:["15 eslabones","20 eslabones","27 eslabones","30 eslabones"],a:2,t:2,i:"Un grillete tiene 27 eslabones. Esto da una longitud de aproximadamente 27,5 metros por grillete."},
+{q:"¿Cómo se llama el aro en la parte superior del ancla donde se une la cadena?",o:["Cepo","Caña","Arganeo","Cruz"],a:2,t:2,i:"El arganeo es el aro o grillete en la parte superior del ancla donde se une la cadena. No confundir con el cepo (barra horizontal del Almirantazgo)."},
+{q:"¿Qué es la caña del ancla?",o:["Las uñas que se clavan al fondo","La barra horizontal perpendicular","El cuerpo o mango central del ancla","El aro de unión con la cadena"],a:2,t:2,i:"La caña es el cuerpo principal o mango central del ancla, la pieza larga que une el arganeo con la cruz y los brazos."},
+{q:"¿Qué es el cepo del ancla?",o:["Las uñas del ancla","La barra horizontal perpendicular a la caña (Almirantazgo)","El arganeo","La cruz"],a:1,t:2,i:"El cepo es la barra horizontal perpendicular a la caña, característica del ancla de Almirantazgo. Impide que el ancla descanse horizontal en el fondo."},
+{q:"¿Qué tipo de ancla tiene cepo fijo?",o:["Ancla Hall","Ancla Danforth","Ancla de Almirantazgo","Ancla CQR/Arado"],a:2,t:2,i:"El ancla de Almirantazgo (o almirante) es la única con cepo fijo perpendicular a la caña. Las modernas como Hall son sin cepo."},
+{q:"¿Qué tipo de ancla es el CQR?",o:["Ancla de aleta alta","Ancla de tipo arado","Ancla de Almirantazgo","Ancla de patente Hall"],a:1,t:2,i:"El CQR (also Secure) es conocida como ancla de arado por su forma. Es popular en veleros y embarcaciones de recreo."},
+{q:"¿Qué ancla destaca por su gran poder de agarre en fondos blandos con poca cadena?",o:["Almirantazgo","Hall","Danforth","CQR"],a:2,t:2,i:"El ancla Danforth tiene uñas largas y planas que penetran profundamente en fondos blandos (arena, fango), ofreciendo excelente agarre con poca cadena."},
+{q:"¿Cuál es el ancla más común en buques mercantes grandes?",o:["Almirantazgo","Danforth","Hall","CQR"],a:2,t:2,i:"El ancla Hall (sin cepo) es la más común en buques mercantes grandes. Sus brazos articulados se pliegan facilitando el guardado en el escobén."},
+{q:"¿Qué es el grillete de entalingadura?",o:["Grillete que une dos tramos de cadena","Grillete que une el ancla con la cadena","Grillete giratorio","El último eslabón de la cadena"],a:1,t:2,i:"El grillete de entalingadura une el arganeo del ancla con el primer tramo de cadena. 'Entalingar' = fijar la cadena al arganeo."},
+{q:"¿Qué es el grillete Kenter?",o:["El grillete de unión entre tramos de cadena","El grillete de entalingadura","El grillete giratorio","El grillete de escape"],a:0,t:2,i:"El grillete Kenter (o de unión) une dos tramos de cadena. Puede desmontarse para reparación. El pin o pitón lo cierra y asegura."},
+{q:"¿Qué es el grillete giratorio?",o:["Une dos tramos de cadena","Conecta ancla con cadena","Pieza que evita que la cadena se enrolle sobre sí misma","Une la cadena al casco"],a:2,t:2,i:"El grillete giratorio impide que la cadena se enrolle y forme cocas (bucles) cuando el buque bornea. Se coloca en intervalos de la cadena."},
+{q:"¿Qué es el contrete?",o:["El arganeo del ancla","El pasador del grillete","El travesaño metálico dentro del eslabón de cadena","La uña del ancla"],a:2,t:2,i:"El contrete (o eslabón contreado) es el travesaño metálico en el interior del eslabón de cadena. Aumenta la resistencia y evita aplastamiento."},
+{q:"¿Qué es el escobén?",o:["El tambor del molinete","Tubo en el casco de proa por donde pasa la cadena del ancla","La caja del ancla","El gancho del remolque"],a:1,t:2,i:"El escobén es el tubo o abertura en el casco de proa por donde pasa la cadena del ancla hacia el exterior y el ancla en su posición de reposo."},
+{q:"Un ancla está 'a pique' cuando:",o:["Está posada en el fondo","Acaba de despegar del fondo con la cadena vertical","Está en el escobén","Está a flor de agua"],a:1,t:2,i:"'A pique' = el ancla acaba de despegar del fondo con la cadena vertical. Es el momento en que el buque se considera libre del fondo."},
+{q:"Un ancla está 'a la pendura' cuando:",o:["En el fondo","En el escobén en reposo","Colgando entre la superficie y el escobén","A flor de agua"],a:2,t:2,i:"'A la pendura' = ancla fuera del agua, colgando entre la superficie y el escobén. 'A flor de agua' = visible en la superficie."},
+{q:"¿Qué es el orinque?",o:["Cabo grueso de amarre","Cabo delgado con boyarín que señala posición del ancla","El cabo del remolque","La cadena del ancla"],a:1,t:2,i:"El orinque es un cabo delgado con un boyarín (boya pequeña) atado al ancla para señalar su posición cuando está fondeada."},
+{q:"¿Qué es 'filar cadena'?",o:["Recoger la cadena a bordo","Arriar progresivamente la cadena que está trabajando","Cortar la cadena","Engrasar la cadena"],a:1,t:2,i:"Filar cadena es arriarla de manera progresiva mientras está trabajando (bajo tensión). Diferente a largar (soltar libremente)."},
+{q:"¿Qué es 'guarnir la cadena'?",o:["Limpiar la cadena","Pasar la cadena alrededor de la corona del barbotín del molinete","Cortar un tramo de cadena","Entalingar la cadena al ancla"],a:1,t:2,i:"Guarnir la cadena es pasarla alrededor de la corona del barbotín del molinete o cabrestante para poder trabajar con ella."},
+{q:"¿Qué es el garreo del ancla?",o:["El fondeo correcto","El arrastre involuntario del ancla por el fondo","El izado del ancla","La posición a pique"],a:1,t:2,i:"El garreo es el arrastre involuntario del ancla por el fondo, causado por la brisa o corrientes fuertes. Es una situación de peligro."},
+{q:"¿Qué es el sistema de fondeo a dos anclas en tandem?",o:["Dos anclas perpendiculares al rumbo","Las dos anclas en la misma dirección una detrás de otra","Un ancla por banda","Dos anclas a 180° entre sí"],a:1,t:2,i:"En fondeo en tándem, las dos anclas se disponen en la misma dirección, una detrás de otra, para mayor poder de retención en condiciones extremas."},
+{q:"Para fondear en aguas de 20 metros de profundidad, ¿cuánta cadena se larga aproximadamente?",o:["1 grillete (27,5 m)","3-4 grilletes (82-110 m)","10 grilletes","Media cadena"],a:1,t:2,i:"Regla general: lanzar entre 3 y 5 veces la profundidad en cadena. A 20 m de profundidad → ~60-100 m → 2-4 grilletes."},
+{q:"¿Qué parte del ancla se clava en el fondo?",o:["El arganeo","La caña","Las uñas (palmas)","El cepo"],a:2,t:2,i:"Las uñas (también llamadas palmas o mapas) son las superficies planas en los extremos de los brazos que se clavan en el fondo marino."},
+{q:"¿Qué es la cruz del ancla?",o:["La intersección entre caña y cepo","La parte inferior donde nacen los brazos","El arganeo doble","El aro principal"],a:1,t:2,i:"La cruz es la parte inferior del ancla donde nacen los brazos. Une la caña con los brazos y las uñas."},
+{q:"¿Qué es el molinete (windlass)?",o:["Un tipo de ancla","Máquina de eje horizontal para izar cadena y ancla","Un cabo de amarre","El escobén"],a:1,t:2,i:"El molinete (windlass) es la máquina con eje horizontal que se usa para izar el ancla y la cadena. Tiene un barbotín que engrana con los eslabones."},
+{q:"¿Qué es el pico de loro del ancla?",o:["El arganeo","La punta de la uña del ancla","El cepo","El mango"],a:1,t:2,i:"El pico de loro es la punta afilada de la uña (palma) del ancla. Es la parte que penetra primero en el fondo."},
+{q:"¿Qué es la barloa?",o:["Un tipo de ancla","Luz de navegación","Cabo o cable para asegurar el buque al muelle u otro buque","El gancho de remolque"],a:2,t:2,i:"La barloa es cualquier cabo o cable del que dispone un buque para asegurarse al muelle o a otro buque."},
+{q:"¿Qué es la codera?",o:["Luz de popa","Cabo de popa para retener al buque en posición determinada","El ancla secundaria","Un grillete especial"],a:1,t:2,i:"La codera es el cabo o cable que se da desde la popa para retener al buque en una posición o dirección determinada."},
+{q:"¿Qué se usa para señalar la posición del ancla fondeada desde la superficie?",o:["Una bandera roja","Un orinque con boyarín","Una boya de color naranja siempre","Una señal de luz"],a:1,t:2,i:"El orinque es el cabo delgado que va desde el ancla hasta un boyarín en la superficie, señalando su posición exacta."},
+{q:"¿Cómo se llama el proceso de fijar la cadena al arganeo del ancla?",o:["Guarnir","Filar","Entalingar","Bornejar"],a:2,t:2,i:"Entalingar la cadena es fijarla al arganeo del ancla usando el grillete de entalingadura. Proceso inverso: desentalingar."},
+{q:"¿Qué es una boya?",o:["Un ancla flotante","Cuerpo flotante anclado para señalización o amarre","Una marca del escobén","Un tipo de cabo"],a:1,t:2,i:"Una boya es un cuerpo flotante anclado al fondo que se usa como ayuda a la navegación, señalización o para amarrar embarcaciones."},
+{q:"¿Qué es el brazo del ancla?",o:["La caña","El cepo","La pieza que va desde la cruz hasta la uña","El arganeo"],a:2,t:2,i:"El brazo es la pieza que va desde la cruz del ancla hasta la uña (palma). El ancla tiene dos brazos simétricos."},
+{q:"¿Qué es una cabilla?",o:["Tipo de ancla pequeña","Clavija para amarrar cabos de labor en el cabillero","Eslabón especial","Parte del timón"],a:1,t:2,i:"La cabilla es una clavija cilíndrica que se introduce en el cabillero para amarrar cabos de labor (cuerdas de trabajo)."},
+
+// ── TOPIC 3: Equipos de Cubierta ─────────────────────────
+{q:"¿Qué es el cabrestante?",o:["Máquina de eje horizontal para anclas","Máquina de eje VERTICAL para cabos y cadenas","Un tipo de polea","La cornamusa principal"],a:1,t:3,i:"El cabrestante tiene eje vertical y se usa para jalar cabos de amarre y cadenas. El molinete tiene eje horizontal y es para la cadena del ancla."},
+{q:"¿Qué es el molinete de cubierta?",o:["Máquina de eje vertical","Máquina de eje HORIZONTAL para cadena del ancla","Un tipo de bita","El cabillero motorizado"],a:1,t:3,i:"El molinete (windlass) tiene eje horizontal y un barbotín especial que engrana con los eslabones de la cadena del ancla. Clave para operaciones de fondeo."},
+{q:"¿Qué diferencia hay entre cabrestante y molinete?",o:["No hay diferencia","El cabrestante es más pequeño","El cabrestante tiene eje vertical; el molinete, horizontal","El molinete es para cabos; el cabrestante para cadenas"],a:2,t:3,i:"Cabrestante = eje VERTICAL (cabos y amarres). Molinete = eje HORIZONTAL (cadena del ancla, barbotín). El malacate es sinónimo de molinete en español americano."},
+{q:"¿Qué son las bitas?",o:["Poleas dobles para cabos","Dos postes dobles empotrados en cubierta para amarrar cabos","Guías para cadenas","Faros de cubierta"],a:1,t:3,i:"Las bitas son los dos postes dobles de metal empotrados en la cubierta, usados para dar vueltas y amarrar los cabos de amarre del buque."},
+{q:"¿Qué es la gatera?",o:["Un tipo de escotilla pequeña","Orificio o guía en la borda por donde salen los cabos de amarre","El escobén de la cadena","Una trampa para amarrar"],a:1,t:3,i:"La gatera es el orificio o guía en la borda (costado) del buque por donde salen los cabos de amarre hacia el muelle o noray."},
+{q:"¿Qué es el escobén?",o:["La caja del ancla","Orificio en proa por donde sale la cadena del ancla","La caja del timón","El cabillero"],a:1,t:3,i:"El escobén es el tubo metálico empotrado en la roda de proa por donde pasa la cadena del ancla. Protege el casco del desgaste por la cadena."},
+{q:"¿Qué son los roletes de cubierta?",o:["Bitas giratorias","Cilindros giratorios que guían y reducen fricción en cabos o cadenas","Tipo de polea elevada","Parte del molinete"],a:1,t:3,i:"Los roletes (rollers) son cilindros giratorios que se colocan en guías y gatera para reducir la fricción cuando se maniobran cabos o cadenas."},
+{q:"¿Qué es la cornamusa?",o:["Un instrumento de viento marinero","Dispositivo con dos cuernos para amarrar cabos menores","Un tipo de ancla","El cabrestante pequeño"],a:1,t:3,i:"La cornamusa es una pieza en forma de T con dos cuernos sobre los que se hace firme un cabo, usada para cabos menores (drizas, escotas)."},
+{q:"¿Qué es el winche de cubierta?",o:["Solo sirve para el ancla","Máquina para izar, arriar y halar cargas o equipos en cubierta","El sistema de gobierno","La bomba de achique"],a:1,t:3,i:"El winche (guinche) es una máquina de tracción usada en cubierta para izar, arriar y halar cargas, redes, escandallo y otros equipos."},
+{q:"¿Qué es el noray?",o:["Parte del ancla","Poste fijo en el muelle para amarrar buques","Una boya de amarre","El escobén del muelle"],a:1,t:3,i:"El noray es el poste cilíndrico de hierro o madera empotrado en el muelle al que se amarran los cabos del buque. Es el punto fijo en tierra."},
+{q:"¿Qué es el contramaestre a bordo?",o:["El oficial de navegación","El encargado de máquinas","Encargado de equipos de cubierta, maniobras y aspecto marinero","El timonel"],a:2,t:3,i:"El contramaestre dirige las maniobras marineras, supervisa los equipos de cubierta, el mantenimiento del aspecto del buque y la tripulación de cubierta."},
+{q:"¿Para qué sirve el telégrafo de máquinas?",o:["Para comunicaciones de radio","Para transmitir órdenes de velocidad desde el puente a sala de máquinas","Para medir la profundidad","Para controlar el timón"],a:1,t:3,i:"El telégrafo de máquinas transmite las órdenes del oficial de guardia en el puente al maquinista en la sala de máquinas (avante, atrás, stop, etc.)."},
+{q:"¿Qué es la vista clara (clear view screen)?",o:["El ventanal del puente de mando","Disco giratorio en ventana de puente que mantiene visibilidad con lluvia","El radar","El sistema de cámaras"],a:1,t:3,i:"La vista clara es un disco circular que gira a alta velocidad en una ventana del puente, expulsando por fuerza centrífuga el agua de lluvia para mantener visibilidad."},
+{q:"¿Qué es el pito marinero?",o:["Solo el silbato de niebla","Instrumento que da órdenes a la tripulación para ejecutar maniobras","El timbre del barco","La sirena de alarma"],a:1,t:3,i:"El pito marinero es el instrumento (silbato) que usa el contramaestre para transmitir órdenes de maniobra a la tripulación durante faenas en cubierta."},
+{q:"¿Qué es el barbotín?",o:["Tipo de cabo trenzado","Rueda dentada del molinete que engrana con la cadena","El tambor del cabrestante","La polea del palo"],a:1,t:3,i:"El barbotín es la rueda dentada (con cavidades) del molinete que encaja perfectamente con los eslabones de la cadena del ancla para moverla."},
+{q:"¿Qué es la guía-cabos?",o:["Un libro de nudos","Dispositivo en borda que guía los cabos hacia afuera o hacia bitas","El capuchón del palo","Un tipo de nudo"],a:1,t:3,i:"La guía-cabos (chaumard) es una pieza fija en la borda con forma de aro u ojal que guía los cabos de amarre de forma ordenada hacia el muelle."},
+{q:"¿Qué es el barómetro a bordo?",o:["Mide la velocidad del viento","Mide la presión atmosférica para prever cambios meteorológicos","Mide la profundidad","Mide la velocidad del buque"],a:1,t:3,i:"El barómetro mide la presión atmosférica en el puente de gobierno. Un descenso rápido indica probable mal tiempo; subida indica mejora."},
+{q:"¿Qué es el estadímetro?",o:["Instrumento para medir velocidad","Instrumento portátil para calcular distancia a objetivo de altura conocida","Medidor de profundidad","El compás náutico"],a:1,t:3,i:"El estadímetro es un instrumento óptico portátil que calcula la distancia a un objetivo (barco, faro) conociendo su altura. Se usa para estimación de distancias a la vista."},
+{q:"¿Qué es el girocompás?",o:["Compás magnético mejorado","Aparato electrónico que indica el norte verdadero independientemente del magnetismo","El control del timón automático","El radar de navegación"],a:1,t:3,i:"El girocompás usa la inercia giroscópica para apuntar siempre al norte geográfico (verdadero), no al norte magnético. No se ve afectado por el metal del buque."},
+{q:"¿Qué es el malacate?",o:["Un nudo especial","Máquina similar al molinete para izar pesos o maniobrar cadenas","La manivela del timón","Un tipo de bita"],a:1,t:3,i:"Malacate es sinónimo de molinete o winche en algunos países hispanohablantes. Designa una máquina de tracción para izar pesos, redes o cadenas."},
+{q:"¿Qué es el escandallo manual?",o:["El medidor de velocidad","Plomada con línea marcada para medir profundidad (sondaleza manual)","El compás de profundidad","El sonar"],a:1,t:3,i:"El escandallo o sondaleza manual es una plomada de plomo con una línea marcada que se arroja al fondo para medir profundidad."},
+
+// ── TOPIC 4: RIPA / COLREG ───────────────────────────────
+{q:"¿Qué significa RIPA?",o:["Reglamento Internacional para la Pesca en Alta mar","Reglamento Internacional para Prevenir los Abordajes","Regla Internacional de Peligro en el Alta mar","Reglamentación para Identificar Peligros Acuáticos"],a:1,t:4,i:"RIPA = Reglamento Internacional para Prevenir los Abordajes en la mar. En inglés: COLREG (Collision Regulations). Consta de 38 reglas."},
+{q:"¿En qué aguas se aplica el RIPA?",o:["Solo en alta mar","Solo en aguas territoriales","En alta mar y en aguas con comunicación con ella navegables por buques marítimos","Solo en zonas portuarias"],a:2,t:4,i:"El RIPA se aplica en alta mar y en las aguas que, teniendo comunicación con ella, sean navegables por buques de navegación marítima."},
+{q:"¿Exime el RIPA de responsabilidad por negligencia?",o:["Sí, si se cumplen todas las reglas","No, nunca exime de consecuencias por negligencia","Solo al propietario","Solo al capitán"],a:1,t:4,i:"El RIPA NO exime a ningún buque, propietario, capitán ni dotación de las consecuencias de cualquier negligencia."},
+{q:"Según el RIPA, ¿qué es la vigilancia adecuada?",o:["Solo visual","Solo auditiva","Visual Y auditiva permanente","Visual con radar"],a:2,t:4,i:"La vigilancia debe ser SIEMPRE visual Y auditiva. No basta solo con ver; hay que escuchar también (señales acústicas, motores, olas)."},
+{q:"¿Qué es la velocidad de seguridad según el RIPA?",o:["La velocidad máxima del buque","Velocidad que permite ejecutar maniobra adecuada para evitar abordaje","50% de la velocidad máxima","La velocidad legal en zona portuaria"],a:1,t:4,i:"Velocidad de seguridad = aquella que permite ejecutar la maniobra adecuada y eficaz para evitar el abordaje, considerando visibilidad, tráfico, maniobrabilidad, etc."},
+{q:"¿Cuándo hay riesgo de abordaje con otro buque?",o:["Siempre que otro buque esté visible","Cuando la demora del buque que se aproxima NO varía apreciablemente","Solo de noche","Solo en visibilidad reducida"],a:1,t:4,i:"Hay riesgo de abordaje cuando la demora (marcación) del buque que se aproxima no varía en forma apreciable. Si la demora varía, generalmente no hay riesgo."},
+{q:"¿Cuál es la maniobra MÁS eficaz para evitar el abordaje?",o:["Reducir velocidad","Cambio de velocidad brusco","Cambio de rumbo (siempre que haya espacio)","Dar marcha atrás"],a:2,t:4,i:"El cambio de rumbo es la maniobra más eficaz, siempre que haya espacio suficiente y no produzca una nueva situación de aproximación."},
+{q:"En un cambio de rumbo para evitar abordaje, ¿qué se debe evitar?",o:["Caer a estribor","Girar más de 90°","Caer con una sucesión de pocos grados (giros pequeños)","Usar el timón"],a:2,t:4,i:"En cambios de rumbo para prevenir abordaje se evitará caer con una sucesión de pocos grados: el giro debe ser grande, claro y decidido."},
+{q:"¿Qué significa que dos buques están 'a la vista'?",o:["Que están en el radar","Que se pueden ver físicamente sin instrumentos","Que están a menos de 1 milla","Que están en comunicación por radio"],a:1,t:4,i:"Buques 'a la vista' = cuando uno puede ser observado VISUALMENTE desde el otro, sin ayuda de radar ni prismáticos."},
+{q:"En situación de vuelta encontrada, ¿qué hace cada buque?",o:["El más pequeño cede el paso","El más lento cede","Ambos caen a estribor para pasarse por babor","Ambos caen a babor"],a:2,t:4,i:"Vuelta encontrada (head-on): ambos buques caen a ESTRIBOR para pasarse por la banda de BABOR del otro. Mnemotecnia: 'Ambos a estribor, babores se ven.'"},
+{q:"¿Cómo se identifica la situación de vuelta encontrada de noche?",o:["Se ven solo luces verdes","Se ven dos luces de tope enfiladas y/o las dos luces de costado (roja y verde)","Se ven dos luces rojas","Se ve solo una luz blanca"],a:1,t:4,i:"De noche en vuelta encontrada: se ven las luces de tope de ambos palos enfiladas (o casi) Y las dos luces de costado (roja de babor y verde de estribor)."},
+{q:"En situación de cruce, ¿quién debe ceder el paso?",o:["El buque que tiene al otro por su babor","El buque que tiene al otro por su estribor","El buque más grande","El buque más lento"],a:1,t:4,i:"En cruce: el buque que tiene al OTRO por su ESTRIBOR debe ceder el paso y mantenerse apartado. Mnemotecnia: 'Si ves rojo a estribor, CUIDADO.'"},
+{q:"Si el buque que debe ceder no maniobra, ¿qué hace el buque privilegiado?",o:["Sigue a rumbo sin hacer nada","Cambia rumbo a babor urgentemente","Cambia rumbo a ESTRIBOR para evitar el abordaje","Detiene máquinas"],a:2,t:4,i:"El buque privilegiado que ve que el otro no maniobra cambiará rumbo a ESTRIBOR (nunca a babor) para evitar el abordaje."},
+{q:"¿Qué es un buque 'que alcanza'?",o:["El buque más rápido","Buque que se aproxima desde más de 22,5° a popa del través del otro","El buque más grande","El que tiene derecho de paso"],a:1,t:4,i:"Buque que alcanza = el que se aproxima a otro desde una marcación de 22,5° o más a POPA DEL TRAVÉS. De noche solo vería la luz de alcance (blanca de popa)."},
+{q:"¿Qué debe hacer el buque que alcanza a otro?",o:["El buque alcanzado maniobra","El buque que alcanza debe maniobrar y apartarse","Ambos reducen velocidad","El más rápido tiene prioridad"],a:1,t:4,i:"EL BUQUE QUE ALCANZA siempre debe mantenerse apartado del buque alcanzado, hasta haberlo adelantado completamente y estar en franquía."},
+{q:"¿Cuándo termina la obligación del buque que alcanza?",o:["Al pasar la proa del otro buque","Al reducir velocidad","Cuando ha adelantado completamente y está en franquía","Cuando el otro le autoriza"],a:2,t:4,i:"La obligación del buque que alcanza no termina hasta que ha adelantado COMPLETAMENTE al otro buque y está en franquía (libre de peligro)."},
+{q:"Dos buques de vela: uno recibe el viento por babor, otro por estribor. ¿Quién maniobra?",o:["El que recibe por estribor","El que recibe por babor","Ambos caen a estribor","El más pequeño"],a:1,t:4,i:"Cuando reciben viento por bandas CONTRARIAS, el que lo recibe por BABOR maniobra. El que recibe por estribor tiene preferencia."},
+{q:"Dos veleros reciben el viento por la misma banda. ¿Quién tiene preferencia?",o:["El de mayor eslora","El de menor eslora","El que está a sotavento","El que está a barlovento debe maniobrar"],a:3,t:4,i:"Si ambos veleros reciben el viento por la misma banda, el de BARLOVENTO maniobra para apartarse del que está a SOTAVENTO."},
+{q:"En un canal angosto, ¿por dónde navegan los buques?",o:["Por el centro","Por la banda de babor","Lo más cerca posible del límite exterior por estribor","Por la banda de mayor profundidad"],a:2,t:4,i:"En canales angostos los buques navegan lo más cerca posible del límite exterior por su costado de ESTRIBOR, como en carretera."},
+{q:"¿Qué debe hacer un buque de vela en un canal angosto?",o:["Tiene preferencia absoluta","No debe estorbar el tránsito de buques mayores","Puede navegar por el centro","Siempre tiene paso"],a:1,t:4,i:"En canales angostos, los buques de vela NO deben estorbar el tránsito de buques más grandes que también naveguen por allí."},
+{q:"¿Qué es un dispositivo de separación de tráfico?",o:["Un radar especial","Balizamiento y trazado en carta para organizar el tráfico marítimo intenso","Una señal acústica de separación","Una zona prohibida"],a:1,t:4,i:"Los dispositivos de separación de tráfico son balizamientos y trazados en cartas en lugares de tráfico intenso (ej: Estrecho de Gibraltar) para ordenar el flujo."},
+{q:"Al cruzar una vía de circulación, ¿cómo debe hacerse?",o:["Lo más rápido posible","Con rumbo paralelo al tráfico","Siguiendo un rumbo lo más perpendicular posible al tráfico","Solo de día"],a:2,t:4,i:"Al cruzar las vías de circulación, el rumbo debe ser lo más PERPENDICULAR posible a la dirección del tráfico para reducir tiempo de exposición al cruce."},
+{q:"¿Cuál es la prioridad más alta entre categorías de buques?",o:["Buque de propulsión mecánica","Buque de vela","Buque sin gobierno","Buque restringido por su calado"],a:3,t:4,i:"Prioridad (de mayor a menor): 1.Restringido por calado → 2.Sin gobierno → 3.Maniobra restringida → 4.Pesca → 5.Vela → 6.Propulsión mecánica → 7.Hidroavión."},
+{q:"¿Qué prioridad tiene un buque de pesca frente a un velero?",o:["El velero tiene prioridad sobre el pesquero","El pesquero tiene prioridad sobre el velero","Ambos tienen igual prioridad","Depende del tamaño"],a:0,t:4,i:"Orden: Pesca (4°) tiene MAYOR prioridad que Vela (5°). Pero los buques a vela tienen prioridad sobre los de propulsión mecánica."},
+{q:"Un velero navegando con motor encendido se clasifica como:",o:["Buque de vela","Buque de propulsión mecánica","Buque de tipo mixto","Buque de pesca"],a:1,t:4,i:"Un buque de recreo que navega a vela Y a motor se considera de PROPULSIÓN MECÁNICA, con las obligaciones que ello implica."},
+{q:"¿Qué buque tiene capacidad de maniobra restringida?",o:["Un carguero cargado","Un buque que hace combustible en mar","Un velero con motor","Un remolcador vacío"],a:1,t:4,i:"Un buque haciendo combustible en mar tiene MANIOBRA RESTRINGIDA por la naturaleza de su trabajo. También los que colocan cables, dragas, etc."},
+{q:"¿Qué es un buque 'sin gobierno'?",o:["Sin timón por avería excepcional, incapaz de maniobrar","Un buque varado","Un buque sin capitán","Un buque ancalado"],a:0,t:4,i:"Buque sin gobierno = incapaz de maniobrar por circunstancia EXCEPCIONAL (avería). Tiene MAYOR prioridad que el de maniobra restringida."},
+{q:"¿Qué es 'pasado y en franquía'?",o:["Haber pasado por el canal angosto","Estado donde se confirma que la maniobra de evitar abordaje fue eficaz","El ancla fuera del agua","El buque libre de amarre"],a:1,t:4,i:"Pasado y en franquía: estado final de la comprobación de eficacia en la maniobra. El buque peligroso ya pasó y quedó a distancia segura."},
+{q:"¿Qué debe llevar la embarcación del práctico como señal?",o:["Dos esferas negras","Bandera Hotel del Código Internacional de Señales","Luz roja y verde alternadas","Señal NC"],a:1,t:4,i:"La embarcación del práctico exhibe la bandera Hotel (H) del Código Internacional de Señales: cuadros rojo y blanco verticales."},
+{q:"Un buque de pesca con curricán se considera:",o:["Buque de pesca con capacidad restringida","Buque de propulsión mecánica","Buque de vela","Buque en fondeadero"],a:1,t:4,i:"Los buques que pescan con CURRICÁN (línea a remolque) NO se consideran buques de pesca según el RIPA; se tratan como buques de propulsión mecánica."},
+{q:"¿Qué es visibilidad reducida según el RIPA?",o:["Solo niebla","Condición por niebla, bruma, nieve, aguaceros, tormenta de arena o causa análoga","Solo de noche","Lluvia ligera"],a:1,t:4,i:"Visibilidad reducida: niebla, bruma, nieve, fuertes aguaceros, tormentas de arena o cualquier causa análoga que disminuya la visibilidad."},
+{q:"¿Qué debe hacer el buque que cede el paso?",o:["Esperar que el otro pase","Maniobrar con anticipación y de forma decidida para quedar bien franco","Dar una pitada corta","Reducir velocidad solamente"],a:1,t:4,i:"El buque que 'cede el paso' debe maniobrar con ANTICIPACIÓN SUFICIENTE y de forma DECIDIDA para quedar bien franco. No esperar al último momento."},
+{q:"¿Para usar la zona costera adyacente a un DST, qué buques pueden?",o:["Solo los de más de 50 metros","Cualquier buque con autorización","Buques menores de 20m, veleros y pesqueros","Solo los buques de estado"],a:2,t:4,i:"Pueden usar la zona costera adyacente: buques de eslora <20m, buques de vela y buques de pesca. Los demás deben usar la vía de circulación."},
+
+// ── TOPIC 5: Luces y Marcas ──────────────────────────────
+{q:"¿Cuál es el arco de visibilidad de las luces de costado?",o:["90° cada una","135° cada una","112,5° cada una","180° cada una"],a:2,t:5,i:"Cada luz de costado cubre 112,5°: desde la proa hasta 22,5° a popa del través. Suma total: 225° (igual que la luz de tope)."},
+{q:"¿De qué color es la luz de babor?",o:["Verde","Blanca","Amarilla","Roja"],a:3,t:5,i:"Babor = ROJO. Estribor = VERDE. Truco: la 'R' de Rojo = baboR (izquierda). El verde = go (derecha, estribor)."},
+{q:"¿De qué color es la luz de estribor?",o:["Roja","Amarilla","Verde","Blanca"],a:2,t:5,i:"Estribor = VERDE. Babor = ROJO. Verde significa 'libre' (pasar), rojo significa 'peligro' (ese buque tiene prioridad)."},
+{q:"¿Qué arco tiene la luz de tope?",o:["360°","135°","225°","90°"],a:2,t:5,i:"La luz de TOPE es blanca y cubre 225° desde la proa (112,5° a cada costado). NO cubre el sector de popa."},
+{q:"¿Qué arco tiene la luz de alcance?",o:["225°","360°","112,5°","135°"],a:3,t:5,i:"La luz de ALCANCE es blanca, en popa, y cubre 135° (67,5° a cada banda). Visible solo desde popa: indica que el buque va alejándose."},
+{q:"¿Qué color es la luz de remolque?",o:["Blanca","Roja","Verde","Amarilla"],a:3,t:5,i:"La luz de REMOLQUE es AMARILLA, en popa, con el mismo arco de 135° que la luz de alcance. La reemplaza cuando el buque está remolcando."},
+{q:"¿Cuál es el arco de la luz todo horizonte?",o:["225°","135°","112,5°","360°"],a:3,t:5,i:"La luz 'todo horizonte' es visible en los 360° completos. Se usa para indicar fondeo, condición especial, etc."},
+{q:"¿Qué luces muestra un buque de propulsión mecánica de eslora menor de 50 metros?",o:["3 topes + costado + alcance","1 tope + costado + alcance","2 topes + costado + alcance","Solo costado y alcance"],a:1,t:5,i:"Buque a motor <50m: 1 LUZ DE TOPE (blanca, 225°) + LUCES DE COSTADO (roja y verde) + LUZ DE ALCANCE (blanca, 135°)."},
+{q:"¿Qué diferencia hay en luces entre un buque de más y menos de 50 metros a motor?",o:["Más de 50m no lleva luz de alcance","Más de 50m lleva DOS luces de tope (popa más alta) y el resto igual","Solo el color de las luces cambia","No hay diferencia"],a:1,t:5,i:"Buque >50m: 2 TOPES en línea vertical (el de popa MÁS ALTO) + costados + alcance. Buque <50m: 1 tope + costados + alcance."},
+{q:"Un buque de eslora menor de 12 metros a motor, ¿qué puede mostrar en lugar de tope y alcance?",o:["Solo luces de costado","Una luz todo horizonte BLANCA (sustituye tope y alcance) + costados","Dos luces amarillas","Nada"],a:1,t:5,i:"Buque <12m a motor: puede mostrar 1 LUZ BLANCA TODO HORIZONTE (que sustituye al tope y al alcance) + luces de costado (pueden ir en un solo farol)."},
+{q:"¿Qué marca diurna exhibe un buque varado?",o:["Una bola negra","Dos bolas en vertical","Tres bolas en línea vertical","Un cilindro"],a:2,t:5,i:"Buque VARADO: luces de fondeo + 2 luces rojas todo horizonte (como sin gobierno) + TRES BOLAS en línea vertical de día."},
+{q:"¿Qué marca diurna exhibe un buque fondeado?",o:["Dos bolas","Un cilindro","Una bola","Tres bolas"],a:2,t:5,i:"Buque FONDEADO de día: UNA BOLA negra en el lugar más visible de la proa."},
+{q:"¿Qué luces muestra un buque SIN GOBIERNO?",o:["3 luces rojas todo horizonte","2 luces rojas todo horizonte en línea vertical","2 luces blancas","3 luces blancas y rojas alternadas"],a:1,t:5,i:"Buque sin gobierno: 2 LUCES ROJAS todo horizonte en línea vertical (más luces de costado y alcance si tiene arrancada). De día: 2 bolas. SIN TOPES."},
+{q:"¿Qué luces muestra un buque con MANIOBRA RESTRINGIDA?",o:["2 luces rojas todo horizonte","3 luces (roja-blanca-roja) todo horizonte en vertical","3 luces verdes","2 blancas y 1 roja"],a:1,t:5,i:"Maniobra restringida: 3 luces todo horizonte en vertical: ROJA-BLANCA-ROJA. Marcas diurnas: bola-bicónica-bola. CON topes si tiene arrancada."},
+{q:"¿Qué luces tiene un pesquero de ARRASTRE?",o:["2 luces roja y blanca en vertical","2 luces todo horizonte verde (arriba) y blanca (abajo) en vertical","3 luces rojas","2 luces amarillas"],a:1,t:5,i:"Pesquero de ARRASTRE: 2 luces todo horizonte, VERDE arriba y BLANCA abajo. Con arrancada: + costados y alcance."},
+{q:"¿Qué luces tiene un pesquero NO de arrastre?",o:["2 todo horizonte: verde arriba, blanca abajo","2 todo horizonte: ROJA arriba, blanca abajo","3 luces rojas en vertical","2 luces amarillas"],a:1,t:5,i:"Pesquero NO arrastre: ROJA arriba y BLANCA abajo. Pesquero de arrastre: VERDE arriba y blanca abajo. ¡Cuidado con la trampa!"},
+{q:"¿Qué exhibe un remolcador con longitud de remolque SUPERIOR a 200 metros?",o:["2 topes en vertical","3 topes en línea vertical + costados + alcance + remolque","1 tope y luz amarilla","2 topes y 3 luces rojas"],a:1,t:5,i:"Remolcador con remolque >200m: 3 TOPES en vertical + costados + alcance + LUZ DE REMOLQUE (amarilla, 135°) sobre la de alcance. Marca diurna: bicónica."},
+{q:"Un buque de propulsión mecánica RESTRINGIDO POR SU CALADO muestra:",o:["2 luces rojas todo horizonte","3 luces ROJAS todo horizonte en línea vertical + cilindro de día","3 luces blancas verticales","2 topes y 3 luces"],a:1,t:5,i:"Restringido por calado: 3 LUCES ROJAS todo horizonte en vertical. Marca diurna: UN CILINDRO. Solo aplica a buques de propulsión mecánica."},
+{q:"¿Qué luces lleva la embarcación del práctico en servicio?",o:["2 rojas en vertical","2 blancas todo horizonte en vertical","2 todo horizonte: blanca arriba, ROJA abajo + costados y alcance con arrancada","3 luces alternadas"],a:2,t:5,i:"Práctico: BLANCA arriba + ROJA abajo (todo horizonte). No confundir con pesquero no arrastre (roja arriba, blanca abajo)."},
+{q:"¿Qué marca exhibe un buque de vela navegando con propulsión mecánica?",o:["Una bola negra","Marca cónica con vértice hacia ABAJO","Marca bicónica","Un cilindro"],a:1,t:5,i:"Velero con motor: exhibe un CONO con el vértice hacia ABAJO en la parte delantera del palo."},
+{q:"¿Qué luces opcionales puede llevar un buque de vela (además del estándar)?",o:["Una luz blanca todo horizonte adicional","2 luces todo horizonte en vertical: ROJA arriba y VERDE abajo","2 luces amarillas","Una luz centelleante"],a:1,t:5,i:"Los veleros pueden añadir opcionalmente 2 luces todo horizonte en el tope del palo: ROJA arriba y VERDE abajo (no junto al farol combinado)."},
+{q:"¿Cuándo deben estar encendidas las luces de cubierta en un buque fondeado?",o:["Siempre voluntariamente","Son obligatorias cuando el buque tiene más de 100 metros de eslora","Solo en mal tiempo","Nunca son obligatorias"],a:1,t:5,i:"Para buques fondeados de más de 100 metros de eslora, las luces de cubierta son OBLIGATORIAS. Para otros, son voluntarias."},
+{q:"Un buque varado de menos de 12 metros de eslora:",o:["Debe mostrar todas las luces de varado","No está obligado a exhibir luces ni marcas","Solo muestra la luz blanca todo horizonte","Muestra 2 bolas"],a:1,t:5,i:"Buques varados de menos de 12 metros NO están obligados a exhibir las luces o marcas reglamentarias de varada."},
+{q:"¿Cuándo deben cumplirse las reglas de luces y marcas?",o:["Solo de noche","Solo en visibilidad reducida","En TODAS las condiciones meteorológicas","Solo cuando hay tráfico"],a:2,t:5,i:"¡TRAMPA! Las reglas de luces y marcas deben cumplirse en TODAS las condiciones meteorológicas, tanto de día como de noche."},
+{q:"¿Qué marca diurna lleva un pesquero de arrastre?",o:["2 conos unidos por la base (bicónica)","2 conos unidos por los vértices (hora cristal)","Una bola","Un cilindro"],a:1,t:5,i:"Pesquero de arrastre: marca bicónica (dos conos unidos por la BASE). Pesquero no arrastre: dos conos unidos por los VÉRTICES (reloj de arena)."},
+{q:"¿Qué luz adicional tiene un aerodeslizador?",o:["Luz amarilla todo horizonte adicional","Luz de centelleo amarilla todo horizonte","Luz roja centelleante","Luz verde centelleante"],a:1,t:5,i:"Los aerodeslizadores, además de las luces normales de propulsión mecánica, llevan una LUZ DE CENTELLEO AMARILLA todo horizonte."},
+
+// ── TOPIC 6: Señales Acústicas ───────────────────────────
+{q:"¿Qué duración tiene una pitada CORTA?",o:["Aproximadamente 4-6 segundos","Aproximadamente 1 segundo","2-3 segundos","Menos de 0,5 segundos"],a:1,t:6,i:"Pitada CORTA ≈ 1 segundo. Pitada LARGA ≈ 4 a 6 segundos. Son los dos tipos básicos de señal acústica."},
+{q:"¿Qué duración tiene una pitada LARGA?",o:["1 segundo","2-3 segundos","4 a 6 segundos","Más de 10 segundos"],a:2,t:6,i:"Pitada LARGA ≈ 4 a 6 segundos. Pitada CORTA ≈ 1 segundo."},
+{q:"¿Qué significa 1 pitada corta?",o:["Estoy dando atrás","Caigo a babor","Caigo a estribor","Atención"],a:2,t:6,i:"1 pitada corta = 'Caigo a ESTRIBOR' (viro a la derecha). 2 cortas = babor. 3 cortas = dando atrás."},
+{q:"¿Qué significa 2 pitadas cortas?",o:["Estoy dando atrás","Caigo a estribor","Solicito paso","Caigo a babor"],a:3,t:6,i:"2 pitadas cortas = 'Caigo a BABOR' (viro a la izquierda). 1 corta = estribor. 3 cortas = atrás."},
+{q:"¿Qué significa 3 pitadas cortas?",o:["Caigo a estribor","Caigo a babor","Estoy dando atrás","Solicito ayuda"],a:2,t:6,i:"3 pitadas cortas = 'Estoy dando ATRÁS' (propulsión a marcha atrás). 1 corta = estribor, 2 cortas = babor."},
+{q:"¿Qué significa 5 pitadas cortas y rápidas?",o:["Estoy en peligro","No entiendo sus intenciones / señal de peligro / advertencia","Solicito practicaje","Quiero pasar por estribor"],a:1,t:6,i:"5 pitadas cortas y RÁPIDAS = 'No entiendo sus intenciones' o señal de atención / peligro inminente. Señal de advertencia."},
+{q:"Un buque quiere adelantar a otro por su estribor, ¿qué señal emite?",o:["1 pitada larga y 2 cortas","2 largas y 1 corta","2 pitadas cortas","1 pitada larga"],a:1,t:6,i:"2 largas + 1 corta = 'Pretendo alcanzarle por su ESTRIBOR'. 2 largas + 2 cortas = alcanzar por babor."},
+{q:"¿Qué responde el buque alcanzado si está de acuerdo en ser adelantado?",o:["Silencio (no responde)","5 pitadas cortas","1 larga - 1 corta - 1 larga - 1 corta","1 sola pitada larga"],a:2,t:6,i:"El buque alcanzado que está de acuerdo responde: 1 larga - 1 corta - 1 larga - 1 corta (señal de conformidad)."},
+{q:"¿Qué señal acústica hace un buque de propulsión mecánica CON ARRANCADA en visibilidad reducida?",o:["1 pitada larga cada 2 minutos","2 pitadas largas cada 2 minutos","Campana cada minuto","4 pitadas cortas"],a:0,t:6,i:"Con arrancada en niebla: 1 pitada LARGA cada 2 minutos. Sin arrancada: 2 pitadas largas cada 2 minutos."},
+{q:"¿Qué señal acústica hace un buque de propulsión mecánica SIN ARRANCADA en visibilidad reducida?",o:["1 pitada larga cada 2 minutos","Repique de campana","2 pitadas LARGAS cada 2 minutos","4 pitadas cortas"],a:2,t:6,i:"Sin arrancada en niebla: 2 pitadas LARGAS cada 2 minutos. Con arrancada: 1 pitada larga cada 2 minutos."},
+{q:"¿Qué señal acústica hace un buque FONDEADO?",o:["1 pitada larga cada minuto","2 pitadas largas cada 2 minutos","Repique de campana de 5 segundos cada minuto","4 pitadas cortas"],a:2,t:6,i:"Fondeado: REPIQUE DE CAMPANA de 5 segundos de duración cada minuto. Puede añadir opcional: 1 corta - 1 larga - 1 corta."},
+{q:"¿Qué señal hace la embarcación de PRÁCTICO?",o:["3 pitadas largas","4 PITADAS CORTAS","Repique de campana seguido de silbato","1 pitada larga"],a:1,t:6,i:"Embarcación de PRÁCTICO: 4 PITADAS CORTAS. En fondeo: repique de campana de 5s + 4 pitadas cortas."},
+{q:"¿Qué señal acústica también hace el velero y pesquero en visibilidad reducida?",o:["1 pitada larga cada 2 minutos","2 pitadas largas cada 2 minutos","1 pitada corta - 1 larga - 1 corta cada 2 minutos (velero sin motor)","Campana continua"],a:2,t:6,i:"Veleros, pesqueros y buques con problemas también emiten: 1 corta - 1 larga - 1 corta cada 2 minutos (igual que los 'sin gobierno' en navegación)."},
+{q:"¿Qué aparatos acústicos necesita un buque de 12 metros o más?",o:["Solo pito","Solo campana","Pito y campana","Pito, campana y gong"],a:2,t:6,i:"Buques ≥12 metros: PITO y CAMPANA. Buques ≥100 metros: PITO + CAMPANA + GONG. Buques <12m: no obligados a llevar dispositivos estándar."},
+{q:"¿Qué aparatos necesita un buque de 100 metros o más?",o:["Solo pito y campana","Solo pito","Pito, campana y GONG","Solo bocina"],a:2,t:6,i:"Buques ≥100 metros necesitan los tres dispositivos: PITO + CAMPANA + GONG. El gong se usa en la popa para señales de fondeo."},
+{q:"¿Qué señal emite un buque que se acerca a un recodo en canal angosto?",o:["2 pitadas largas","5 pitadas cortas","1 PITADA LARGA","3 pitadas cortas"],a:2,t:6,i:"Un buque que se acerca a un recodo en canal angosto donde no puede ver lo que hay al otro lado emite 1 PITADA LARGA."},
+{q:"¿Qué es la señal de alarma RADIOTELEGRÁFICA?",o:["12 rayas de 4 segundos en 1 minuto","SOS en morse","Mayday verbal","4 tonos cortos"],a:0,t:6,i:"Alarma radiotelegráfica: 12 rayas de 4 segundos cada una con 1 segundo de pausa, en 1 minuto. Activa las autoalarmas de los buques cercanos."},
+{q:"¿Qué señal de emergencia consiste en cohetes de ESTRELLAS ROJAS?",o:["Señal NC del Código Internacional","Cohetes o granadas con estrellas rojas lanzados a intervalos","Una bengala naranja","Una señal detonante"],a:1,t:6,i:"Señal de peligro C: cohetes o granadas que despidan ESTRELLAS ROJAS, lanzados uno a uno y a cortos intervalos."},
+{q:"¿Cuál es la señal de peligro verbal por radio?",o:["SOS","PAN-PAN","MAYDAY","SECURITÉ"],a:2,t:6,i:"La señal de emergencia por radiofonía es la palabra 'MAYDAY' (del francés 'm'aidez' = ayúdame). SOS es la telegrafía. PAN-PAN = urgencia. SECURITÉ = seguridad."},
+{q:"¿Qué movimiento corporal indica peligro/socorro visualmente?",o:["Agitar una bandera roja","Movimientos lentos repitiendo subir y bajar brazos extendidos lateralmente","Saltar repetidamente","Girar los brazos"],a:1,t:6,i:"Señal visual de socorro: movimientos LENTOS y REPETIDOS subiendo y bajando los BRAZOS EXTENDIDOS lateralmente (como un pájaro volando lento)."},
+{q:"¿Qué color debe tener la humareda de la señal fumígena de socorro?",o:["Roja","Blanca","Azul","Naranja"],a:3,t:6,i:"La señal fumígena de socorro produce una densa humareda de color NARANJA. Es visible durante el día cuando las bengalas rojas no lo son tanto."},
+
+// ── TOPIC 7: Tipos de Buques y Veleros ──────────────────
+{q:"¿Qué tipo de barco era el drakkar?",o:["Barco romano de guerra","Barco de vapor del siglo XIX","Barco vikingo de proa curva con dragón","Barco árabe de vela triangular"],a:2,t:7,i:"El drakkar (o dreki) era la nave vikinga larga, de proa curvada con figura de dragón, propulsada a remos y vela. Siglos VIII-XI."},
+{q:"¿Qué era la carabela?",o:["Buque romano de guerra","Barco de tres filas de remos","Embarcación de vela del siglo XV-XVI usada por exploradores","Primer barco de vapor"],a:2,t:7,i:"La carabela fue el buque de vela usada por los exploradores españoles y portugueses en los siglos XV-XVI. Cristóbal Colón viajó en carabelas."},
+{q:"¿Qué es un galeón?",o:["Barco de guerra romano","Buque de vela grande de los siglos XVI-XVIII para comercio y guerra","Bote de pesca","Primer submarino"],a:1,t:7,i:"El galeón fue el gran buque de vela de los siglos XVI-XVIII, usado por España y Portugal para el comercio con América y como buque de guerra."},
+{q:"¿Qué tipo de buque mercante se usa principalmente para carga líquida (petróleo)?",o:["Portacontenedores","Buque granelero","Buque tanque (tanquero)","Buque ro-ro"],a:2,t:7,i:"El buque tanque (tanker) transporta carga líquida: crudo, refinados, gas licuado. Son los buques más grandes del mundo (VLCC, ULCC)."},
+{q:"¿Qué es un buque portacontenedores?",o:["Transporta granel sólido","Diseñado para transportar contenedores ISO","Transporta líquidos","Embarcación de pasajeros"],a:1,t:7,i:"El portacontenedores (container ship) está diseñado específicamente para transportar contenedores ISO estándar apilados en bodegas y cubierta."},
+{q:"¿Qué es un buque ro-ro?",o:["Solo pasajeros","Transporte de granos","Buque con rampa de entrada para carga rodante (vehículos)","Buque de guerra"],a:2,t:7,i:"El buque ro-ro (roll-on/roll-off) tiene rampas de entrada para que los vehículos (coches, camiones) entren y salgan rodando."},
+{q:"¿Qué es un buque granelero (bulk carrier)?",o:["Lleva contenedores","Transporta granel sólido (grano, mineral, carbón)","Solo para pasajeros","Buque de salvamento"],a:1,t:7,i:"El granelero transporta carga sólida a granel sin empaquetar: carbón, hierro, grano, cemento, etc. Son los buques de carga más comunes."},
+{q:"¿Qué es un clipper?",o:["Barco de vapor","Barco de vela muy rápido del siglo XIX (para té y lana)","Buque de guerra moderno","Un tipo de remolcador"],a:1,t:7,i:"El clipper fue el velero más rápido del siglo XIX, diseñado para el transporte rápido (té de China, lana de Australia). Famosos: Cutty Sark, Thermopylae."},
+{q:"¿Qué es la jarcia firme de un velero?",o:["El conjunto de velas","Las cuerdas de trabajo del velero","El aparejo fijo que sostiene los mástiles (obenques, estays)","El timón del velero"],a:2,t:7,i:"Jarcia firme (standing rigging): aparejo fijo que sostiene los mástiles. Incluye obenques (laterales), estay de proa y backstay (de popa)."},
+{q:"¿Qué es la jarcia de labor?",o:["El aparejo fijo que sujeta los mástiles","Las escotas, drizas y otros cabos de trabajo para maniobrar velas","El casco del velero","Los aparejos de anclaje"],a:1,t:7,i:"Jarcia de labor (running rigging): todos los cabos móviles para maniobrar las velas (drizas para izar, escotas para orientar, braces, etc.)."},
+{q:"¿Qué son los obenques en un velero?",o:["Cabos que orientan las velas","Cabos laterales que sujetan el mástil a los costados","Las poleas del palo","Las velas de proa"],a:1,t:7,i:"Los obenques son los cables o cabos de la jarcia firme que van del tope del palo a los costados del buque, sosteniéndolo lateralmente."},
+{q:"¿Qué es el estay de proa?",o:["El cabo que baja la vela","Cable de jarcia firme que va desde el tope del palo a la proa","El bauprés","La botavara"],a:1,t:7,i:"El estay de proa va desde el tope del mástil a la proa, sujetando el palo hacia adelante. A él se iza el génova o el foque."},
+{q:"¿Qué es la botavara?",o:["El mástil principal","La vela de proa","Palo horizontal en la base del mástil que soporta la vela mayor","El timón del velero"],a:2,t:7,i:"La botavara es el palo horizontal articulado en la base del mástil que soporta el borde inferior (baluma) de la vela mayor."},
+{q:"¿Qué es el bauprés?",o:["El mástil de popa","Palo inclinado que sale de la proa para velas de proa","Una vela triangular","La bañera del velero"],a:1,t:7,i:"El bauprés es el palo inclinado que sale de la proa hacia adelante, del que se suspenden los focs, foques o velas de proa."},
+{q:"¿Qué es una fragata en términos históricos?",o:["Barco de vela con un solo palo","Buque de guerra de tres palos y una cubierta de cañones","Barco de vapor pequeño","Lancha cañonera"],a:1,t:7,i:"La fragata histórica era un buque de guerra de tres palos con una cubierta de cañones, más rápida y pequeña que el navío de línea."},
+{q:"¿Qué es un buque trirreme?",o:["Tres velas en un palo","Barco antiguo con tres filas de remeros superpuestas","Tres mástiles","Buque con tres motores"],a:1,t:7,i:"El trirreme era el principal buque de guerra griego y romano, con tres filas superpuestas de remeros. Muy rápido y maniobrable para el espolonazo."},
+{q:"¿Qué es un buque de propulsión Voith-Schneider?",o:["Buque con hélices convencionales","Remolcador con propulsores cicloides de 360° sin timón separado","Un tipo de submarino","Buque con propulsión nuclear"],a:1,t:7,i:"Los propulsores Voith-Schneider son discos con palas verticales que giran 360° dando propulsión y gobierno simultáneamente. Muy usados en remolcadores."},
+{q:"¿Qué es un buque remolcador azimutal?",o:["Remolcador con hélices fijas","Remolcador con propulsores que giran 360° en eje vertical (máxima maniobrabilidad)","Buque de salvamento","Remolcador de alta mar"],a:1,t:7,i:"Los remolcadores azimutales tienen unidades propulsoras que giran 360° en eje vertical, dando empuje en cualquier dirección sin timón convencional."},
+{q:"¿Qué buques históricos usaban 'curricán' para pescar?",o:["Todos los pesqueros","Embarcaciones con línea de pesca arrastrada sin restricción de maniobra","Solo los arrastreros","Solo los de altura"],a:1,t:7,i:"El curricán es la línea de pesca que se arrastra mientras el barco navega (trolling). Estos barcos NO son 'buques de pesca' según el RIPA, pues mantienen maniobrabilidad."},
+{q:"¿Cuál fue la embarcación de Magallanes y Elcano para la primera vuelta al mundo?",o:["Carabela","Galeón","Nao/Carraca","Clipper"],a:2,t:7,i:"Magallanes y Elcano usaron naos (carracas), buques robustos de tres palos. La Victoria fue la única de las cinco naves que completó el viaje (1519-1522)."},
+{q:"¿Qué significa el término 'eslora' para los veleros?",o:["La longitud de la botavara","La longitud total del casco","La altura del mástil","El ancho en la flotación"],a:1,t:7,i:"Igual que en cualquier buque, eslora = longitud total del casco, de proa a popa. La guinda es la altura desde flotación al punto más alto del mástil."},
+{q:"¿Qué es un buque VLCC?",o:["Buque de pesca muy grande","Very Large Crude Carrier: superpetrolero de más de 200.000 DWT","Buque portacontenedores gigante","Crucero de gran lujo"],a:1,t:7,i:"VLCC (Very Large Crude Carrier): superpetrolero de 200.000 a 320.000 DWT. ULCC (Ultra Large) supera los 320.000 DWT. Son los buques más grandes del mundo."},
+
+// ── TOPIC 8: Sondaleza y Maniobras ───────────────────────
+{q:"¿Qué es la sondaleza?",o:["Un tipo de sonda electrónica","Línea con plomada de plomo para medir profundidad manualmente","Un tipo de ancla","El GPS náutico"],a:1,t:8,i:"La sondaleza (lead line) es una línea de cáñamo con una plomada de plomo en el extremo que se arroja al fondo para medir la profundidad."},
+{q:"¿Qué unidad de medida se usa en la sondaleza?",o:["Metros","Pies","Brazas (fathoms)","Nudos"],a:2,t:8,i:"La sondaleza se mide en BRAZAS (fathoms). 1 braza = 1,829 metros ≈ 1,83 m. Es la unidad clásica de profundidad marítima."},
+{q:"¿A cuántos metros equivale aproximadamente 1 braza?",o:["1 metro","1,83 metros (1,829 m)","2 metros","1,5 metros"],a:1,t:8,i:"1 braza = 1,829 metros (aprox. 1,83 m). Es la longitud media de los brazos extendidos de un marinero adulto."},
+{q:"¿Qué marca indica el punto de 5 brazas en la sondaleza?",o:["3 tiras de cuero","Tela blanca","Tela roja","Cuero con agujero"],a:1,t:8,i:"5 brazas: TELA BLANCA. 7 brazas: tela roja. 10 brazas: cuero con agujero. 15 brazas: tela blanca (se repiten)."},
+{q:"¿Qué marca indica 10 brazas en la sondaleza?",o:["Tela roja","Tela blanca","Cuero con agujero","2 nudos"],a:2,t:8,i:"10 brazas: CUERO CON AGUJERO. 5 brazas: tela blanca. 7 brazas: tela roja. 13 brazas: tela azul."},
+{q:"¿Qué marca indica 7 brazas en la sondaleza?",o:["Tela blanca","Cuero liso","Tela roja","3 tiras de cuero"],a:2,t:8,i:"7 brazas: TELA ROJA. 5 brazas: blanca. 10 brazas: cuero con agujero. Las marcas ayudan a identificar la profundidad de noche al tacto."},
+{q:"¿Qué marca indica 2 brazas en la sondaleza?",o:["Tela azul","2 tiras de cuero","Tela blanca","1 nudo"],a:1,t:8,i:"2 brazas: 2 TIRAS DE CUERO. 3 brazas: 3 tiras de cuero. Las primeras marcas son de cuero para identifiar por tacto en oscuridad."},
+{q:"¿Por qué las marcas de la sondaleza deben reconocerse de noche?",o:["No es necesario de noche","Porque la medición es más precisa de noche","Para identificar profundidad al tacto sin necesidad de ver","Para cumplir el RIPA"],a:2,t:8,i:"Las marcas están diseñadas para reconocerse AL TACTO en la oscuridad. Cuero, tela, nudos: diferentes texturas = diferentes profundidades."},
+{q:"¿Qué material se usa en la base (plomada) de la sondaleza?",o:["Piedra pesada","Madera","Plomo","Hierro fundido"],a:2,t:8,i:"La plomada es de PLOMO porque es denso (se hunde rápido), maleable (se graba con sebo para muestras del fondo) y resistente al agua."},
+{q:"¿Para qué se usa el sebo en la plomada de la sondaleza?",o:["Para lubricar la línea","Para que la plomada se adhiera al fondo y traiga muestras de sedimento","Para evitar la corrosión","Para hacerla más pesada"],a:1,t:8,i:"El sebo en el hueco de la plomada permite tomar muestras del fondo (arena, fango, conchas) para identificar el tipo de fondo marino."},
+{q:"¿Qué es el escandallo?",o:["Solo la sondaleza electrónica","La sonda para medir profundidad, puede ser manual (plomada) o electrónica","Un tipo de ancla","El instrumento de velocidad"],a:1,t:8,i:"Escandallo es el término general para el instrumento de medida de profundidad. Puede ser la sondaleza manual (plomada) o la sonda electrónica."},
+{q:"¿Qué es 'singar' en marinería?",o:["Fondear con ancla grande","Impulsar un bote dando remadas por ambos costados para mantener el rumbo","Izar la vela mayor","Amarrar por proa"],a:1,t:8,i:"Singar es impulsar un bote con remo dando remadas por ambos costados alternativamente para mantener el rumbo, sin desviarse."},
+{q:"¿Qué es 'cinglar'?",o:["Atar cabos","Impulsar embarcación apoyando remo en el fondo alternativamente por los costados","Fondear con dos anclas","Medir profundidad"],a:1,t:8,i:"Cinglar es impulsar una embarcación apoyando un remo o vara en el fondo, impulsando alternando por uno y otro costado. Es como polear."},
+{q:"¿Qué es una maniobra según el RIPA?",o:["Solo el giro del timón","Operación para gobernar el buque modificando velocidad, posición y rumbo","El fondeo","El remolque"],a:1,t:8,i:"Maniobra es la operación para gobernar el buque modificando su velocidad, posición y rumbo. También refiere a las faenas realizadas en cubierta."},
+{q:"¿Qué es la deriva en maniobra?",o:["La velocidad extra","El abatimiento lateral hacia sotavento causado por viento o corriente","El giro a babor","La marcha atrás"],a:1,t:8,i:"La deriva es el abatimiento lateral del buque hacia sotavento causado por el viento o la corriente. Se compensa con el timón o cambiando el rumbo."},
+{q:"¿Qué es el rumbo?",o:["La velocidad del buque","La dirección hacia la cual se dirige el buque","El calado del buque","La posición GPS"],a:1,t:8,i:"El rumbo es la dirección hacia la cual se dirige el buque, expresada en grados (0° a 360°) con referencia al norte."},
+{q:"¿Qué marca indica 20 brazas en la sondaleza?",o:["Tela blanca","Cuero con agujero","Dos nudos o cuero con dos agujeros","Tela azul"],a:2,t:8,i:"20 brazas: DOS NUDOS (o cuero con dos agujeros en algunos sistemas). 15 brazas: blanca. 25 brazas: 1 nudo + cuero o tela y cuero."},
+{q:"¿Qué es el atraque?",o:["Fondear en alta mar","Operación de colocar el buque al costado del muelle y asegurarlo con líneas","Embarcar al práctico","Cruzar un canal"],a:1,t:8,i:"Atracar es la operación de colocar el buque al costado del muelle (o noray) y asegurarlo con las líneas de amarre."},
+{q:"¿Qué indica 'En navegación' según el RIPA?",o:["Solo cuando se mueve","Embarcación en la mar que NO está ni fondeada, ni amarrada, ni varada","Cualquier buque en el agua","Solo cuando usa el motor"],a:1,t:8,i:"'En navegación' según el RIPA = embarcación en la mar que no está fondeada, ni amarrada a tierra, ni varada. Puede estar parada pero sigue siendo 'en navegación'."},
+{q:"¿Cuántas brazas hay en una milla náutica?",o:["1000 brazas","1852 brazas","760 brazas","No hay relación directa"],a:1,t:8,i:"1 milla náutica = 1852 metros. 1 braza = 1,829 m. Por tanto: 1852 / 1,829 ≈ 1013 brazas por milla. El dato exacto de referencia es 1852 metros."}
+];
+
+// ═══════════════════════════════════════════════════════
+// TIPS por TOPIC
+// ═══════════════════════════════════════════════════════
+const TIPS={
+0:["Recuerda: PROA=delantera, POPA=posterior, BABOR=izquierda (rojo), ESTRIBOR=derecha (verde)","Las cuadernas son las 'costillas', los baos son las 'vigas', la quilla es la 'columna vertebral'","Obra VIVA = sumergida. Obra MUERTA = fuera del agua. Arrufo = extremos ALTOS. Quebranto = extremos BAJOS."],
+1:["ESLORA=largo, MANGA=ancho, PUNTAL=alto, CALADO=hundido, FRANCOBORDO=por encima del agua","Disco Plimsoll: WNA=Invierno Atlántico Norte (más restrictivo). TF=Agua dulce tropical (permite más carga).","Apopado=más calado en popa. Aproado=más calado en proa. Adrizado=equilibrado."],
+2:["Un grillete = 27,5 metros = 27 eslabones. A 20m de profundidad → larga 3-5 grilletes","Arganeo=aro superior, Caña=mango, Cruz=unión inferior, Brazos=laterales, Uñas=lo que clava en el fondo","Ancla ALMIRANTAZGO = cepo fijo. HALL = sin cepo, más común en buques grandes. DANFORTH = gran agarre en fondos blandos."],
+3:["Cabrestante = eje VERTICAL (cabos). Molinete = eje HORIZONTAL (cadena ancla). Barbotín = rueda dentada del molinete.","Bitas = postes dobles para amarrar cabos gruesos. Cornamusa = para cabos menores. Gatera = guía en la borda.","Escobén = tubo por donde pasa la cadena. Roletes = reducen fricción. Noray = poste en el muelle."],
+4:["Regla de cruces: si ves ROJO a estribor → CEDE EL PASO. Si ves VERDE → tienes prioridad.","Orden de prioridad (1=máxima): Restringido calado → Sin gobierno → Maniobra restringida → Pesca → Vela → Motor → Hidroavión","En canal angosto: navega por estribor, no fondees, buques <20m y veleros no estorban a los grandes."],
+5:["Babor=ROJO 112,5°. Estribor=VERDE 112,5°. Tope=BLANCA 225°. Alcance=BLANCA 135°. Remolque=AMARILLA 135°.","Sin gobierno=2 rojas todo horizonte. Maniobra restringida=roja-blanca-roja. Restringido calado=3 rojas.","Arrastre: VERDE arriba, blanca abajo. NO-arrastre: ROJA arriba, blanca abajo. ¡No confundirlos!"],
+6:["1 corta=estribor. 2 cortas=babor. 3 cortas=atrás. 5 rápidas=¡peligro/no entiendo!","Niebla con arrancada=1 larga/2min. Sin arrancada=2 largas/2min. Fondeado=campana 5s/min. Práctico=4 cortas.","≥12m: pito+campana. ≥100m: pito+campana+gong. <12m: cualquier señal acústica eficaz."],
+7:["Jarcia FIRME=fija, sostiene mástil (obenques, estays). Jarcia de LABOR=móvil, maneja velas (drizas, escotas).","Velero con motor=buque de propulsión MECÁNICA (no de vela según RIPA). Pescador con curricán=idem.","Drakkar=vikingo. Carabela=exploradores s.XV. Galeón=comercio/guerra s.XVI-XVIII. Clipper=velocidad s.XIX."],
+8:["Sondaleza: 1 braza=1,83m. Marcas: 2bz=2 cueros. 5bz=blanca. 7bz=roja. 10bz=cuero con agujero.","Garrear=arrastre del ancla. Borneo=giro en torno al ancla. Encallar=tocar fondo involuntariamente.","Rumbo=dirección en grados. Deriva=abatimiento lateral. Maniobra eficaz=cambio de rumbo grande y decidido."]
+};
+
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+const state={
+  selectedTopics:TOPICS.map((_,i)=>i),
+  mode:'quick',
+  pool:[],current:0,score:0,answered:false,
+  timerInterval:null,timerSeconds:20,
+  topicStats:{},
+  results:[]
+};
+
+// ═══════════════════════════════════════════════════════
+// RENDER HOME
+// ═══════════════════════════════════════════════════════
+function initHome(){
+  const grid=document.getElementById('topicsGrid');
+  grid.innerHTML='';
+  TOPICS.forEach((t,i)=>{
+    const cnt=Q.filter(q=>q.t===i).length;
+    const sel=state.selectedTopics.includes(i);
+    const div=document.createElement('div');
+    div.className='topic-card'+(sel?' selected':'');
+    div.style.setProperty('--tc',t.color+'22');
+    div.innerHTML=`<div class="tc-icon">${t.icon}</div><div class="tc-name">${t.name}</div><div class="tc-count">${cnt} preguntas</div><div class="tc-tag">${t.tag}</div>`;
+    div.onclick=()=>toggleTopic(i,div);
+    grid.appendChild(div);
+  });
+}
+function toggleTopic(i,el){
+  const idx=state.selectedTopics.indexOf(i);
+  if(idx>=0){ if(state.selectedTopics.length>1){state.selectedTopics.splice(idx,1);el.classList.remove('selected');}}
+  else{state.selectedTopics.push(i);el.classList.add('selected');}
+}
+function selectMode(m){
+  state.mode=m;
+  document.querySelectorAll('.mode-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelector(`[data-mode="${m}"]`).classList.add('selected');
+}
+
+// ═══════════════════════════════════════════════════════
+// QUIZ ENGINE
+// ═══════════════════════════════════════════════════════
+function startQuiz(){
+  let pool=Q.filter(q=>state.selectedTopics.includes(q.t));
+  pool=[...pool].sort(()=>Math.random()-0.5);
+  if(state.mode==='quick') pool=pool.slice(0,20);
+  state.pool=pool;
+  state.current=0;state.score=0;state.answered=false;state.results=[];
+  state.topicStats={};
+  TOPICS.forEach((_,i)=>{state.topicStats[i]={t:0,c:0};});
+  showScreen('quiz');
+  renderQuestion();
+}
+function renderQuestion(){
+  const q=state.pool[state.current];
+  const total=state.pool.length;
+  document.getElementById('progressText').textContent=`${state.current+1} / ${total}`;
+  document.getElementById('progressBar').style.width=`${((state.current)/total)*100}%`;
+  document.getElementById('qNum').textContent=`Pregunta ${state.current+1}`;
+  const pill=document.getElementById('qTopicPill');
+  pill.textContent=TOPICS[q.t].icon+' '+TOPICS[q.t].name;
+  pill.style.background=TOPICS[q.t].color+'22';
+  pill.style.color=TOPICS[q.t].color;
+  pill.style.border=`1px solid ${TOPICS[q.t].color}44`;
+  document.getElementById('qText').textContent=q.q;
+  const og=document.getElementById('optionsGrid');
+  og.innerHTML='';
+  const letters=['A','B','C','D'];
+  q.o.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn';
+    btn.innerHTML=`<span class="opt-letter">${letters[i]}</span>${opt}`;
+    btn.onclick=()=>selectAnswer(i);
+    og.appendChild(btn);
+  });
+  document.getElementById('insightPanel').className='insight-panel';
+  document.getElementById('insightPanel').style.display='none';
+  document.getElementById('btnNext').style.display='none';
+  state.answered=false;
+  const td=document.getElementById('timerDisplay');
+  if(state.mode==='timed'){td.style.display='block';startTimer();}
+  else{td.style.display='none';clearInterval(state.timerInterval);}
+}
+function startTimer(){
+  clearInterval(state.timerInterval);
+  state.timerSeconds=20;
+  const td=document.getElementById('timerDisplay');
+  td.textContent='20';td.classList.remove('urgent');
+  state.timerInterval=setInterval(()=>{
+    state.timerSeconds--;
+    td.textContent=state.timerSeconds;
+    if(state.timerSeconds<=5)td.classList.add('urgent');
+    if(state.timerSeconds<=0){clearInterval(state.timerInterval);if(!state.answered)revealAnswer(-1);}
+  },1000);
+}
+function selectAnswer(chosen){
+  if(state.answered)return;
+  state.answered=true;
+  clearInterval(state.timerInterval);
+  const q=state.pool[state.current];
+  const correct=q.a===chosen;
+  state.topicStats[q.t].t++;
+  if(correct){state.score++;state.topicStats[q.t].c++;}
+  state.results.push({q,chosen,correct});
+  revealAnswer(chosen);
+}
+function revealAnswer(chosen){
+  const q=state.pool[state.current];
+  const btns=document.querySelectorAll('.option-btn');
+  btns.forEach((btn,i)=>{
+    btn.disabled=true;
+    if(i===q.a)btn.classList.add('correct');
+    else if(i===chosen&&chosen!==q.a)btn.classList.add('wrong');
+    else if(i!==q.a)btn.classList.add('dimmed');
+  });
+  const correct=chosen===q.a;
+  const ip=document.getElementById('insightPanel');
+  ip.style.display='flex';
+  ip.className='insight-panel show '+(correct?'correct-p':'wrong-p');
+  document.getElementById('insightIcon').textContent=correct?'✅':'❌';
+  document.getElementById('insightLabel').textContent=correct?'¡Correcto!':'Respuesta incorrecta';
+  document.getElementById('insightLabel').style.color=correct?'var(--green)':'var(--red)';
+  document.getElementById('insightText').textContent=q.i;
+  document.getElementById('scoreDisplay').textContent=`✓ ${state.score}`;
+  document.getElementById('btnNext').style.display='flex';
+}
+function nextQuestion(){
+  if(!state.answered)return;
+  if(state.current+1>=state.pool.length){showResults();return;}
+  state.current++;
+  renderQuestion();
+}
+function exitQuiz(){
+  clearInterval(state.timerInterval);
+  if(confirm('¿Seguro que quieres salir? Se perderá el progreso.'))goHome();
+}
+
+// ═══════════════════════════════════════════════════════
+// RESULTS
+// ═══════════════════════════════════════════════════════
+function showResults(){
+  clearInterval(state.timerInterval);
+  showScreen('results');
+  const total=state.pool.length;
+  const pct=Math.round((state.score/total)*100);
+  document.getElementById('resultsTitle').textContent=pct>=90?'¡Excelente, marinero!':(pct>=70?'Buen resultado':'Sigue practicando');
+  document.getElementById('resultsSubtitle').textContent=`Completaste el quiz de ${total} preguntas`;
+  document.getElementById('resStat1').textContent=state.score;
+  document.getElementById('resStat2').textContent=total-state.score;
+  document.getElementById('resStat3').textContent=total;
+  document.getElementById('ringPct').textContent=pct+'%';
+  const rc=pct>=90?'#3ecf8e':(pct>=70?'#4a90e8':'#f56565');
+  document.getElementById('ringFill').style.stroke=rc;
+  document.getElementById('ringPct').style.color=rc;
+  setTimeout(()=>{document.getElementById('ringFill').style.strokeDashoffset=502-(502*pct/100);},300);
+  const bd=document.getElementById('breakdownContent');
+  bd.innerHTML='';
+  state.selectedTopics.forEach(ti=>{
+    const st=state.topicStats[ti];
+    if(st.t===0)return;
+    const p=Math.round((st.c/st.t)*100);
+    const color=p>=80?'var(--green)':(p>=60?'var(--accent)':'var(--red)');
+    bd.innerHTML+=`<div class="breakdown-row"><div class="breakdown-label"><span class="breakdown-name">${TOPICS[ti].icon} ${TOPICS[ti].name}</span><span class="breakdown-score" style="color:${color}">${st.c}/${st.t} (${p}%)</span></div><div class="breakdown-bar"><div class="breakdown-bar-fill" style="background:${color}" data-w="${p}"></div></div></div>`;
+  });
+  setTimeout(()=>document.querySelectorAll('.breakdown-bar-fill').forEach(b=>{b.style.width=b.dataset.w+'%';}),400);
+  const weak=state.selectedTopics.filter(ti=>{const s=state.topicStats[ti];return s.t>0&&(s.c/s.t)<0.75;});
+  const tw=document.getElementById('tipsWeak');tw.innerHTML='';
+  if(weak.length>0){
+    tw.innerHTML='<div class="tips-weak-title">💡 Áreas de mejora</div><div id="tipsList"></div>';
+    const tl=document.getElementById('tipsList');
+    weak.forEach(ti=>{TIPS[ti].forEach(tip=>{tl.innerHTML+=`<div class="tip-item">${tip}</div>`;});});
+  }
+  if(pct>=90)launchConfetti();
+}
+function restartQuiz(){startQuiz();}
+
+// ═══════════════════════════════════════════════════════
+// ANSWER KEY
+// ═══════════════════════════════════════════════════════
+function showAnswerKey(){
+  showScreen('answerkey');
+  const akContent=document.getElementById('akContent');
+  akContent.innerHTML='';
+  TOPICS.forEach((topic,ti)=>{
+    const tqs=Q.filter(q=>q.t===ti);
+    let html=`<div class="ak-topic-section"><div class="ak-topic-header" style="background:${topic.color}15;border-bottom:1px solid ${topic.color}33"><span class="ak-topic-icon">${topic.icon}</span><span class="ak-topic-name">${topic.name}</span><span style="margin-left:auto;font-size:0.78rem;color:var(--text3)">${tqs.length} preguntas</span></div><div class="ak-questions-grid">`;
+    tqs.forEach((q,idx)=>{
+      const letters=['A','B','C','D'];
+      html+=`<div class="ak-item"><div class="ak-q-num">P${idx+1} · ${topic.name}</div><div class="ak-q-text">${q.q}</div><div class="ak-answer">${letters[q.a]}) ${q.o[q.a]}</div><div class="ak-insight-mini">${q.i.substring(0,80)}…</div></div>`;
+    });
+    html+='</div></div>';
+    akContent.innerHTML+=html;
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// STUDY GUIDE
+// ═══════════════════════════════════════════════════════
+const STUDY_PANELS=[
+  {id:'ripa',label:'🗺️ RIPA/COLREG'},
+  {id:'luces',label:'💡 Luces'},
+  {id:'fondeo',label:'⚓ Fondeo y Anclas'},
+  {id:'cubierta',label:'🔧 Cubierta'},
+  {id:'sondaleza',label:'🪢 Sondaleza'},
+  {id:'señales',label:'🔊 Señales Acústicas'},
+  {id:'veleros',label:'⛵ Veleros'},
+];
+function showStudyGuide(){
+  showScreen('study');
+  buildStudyTabs();
+  activateStudyPanel('ripa');
+}
+function buildStudyTabs(){
+  const tabs=document.getElementById('studyTabs');
+  tabs.innerHTML='';
+  STUDY_PANELS.forEach(p=>{
+    const btn=document.createElement('button');
+    btn.className='study-tab';
+    btn.textContent=p.label;
+    btn.onclick=()=>activateStudyPanel(p.id);
+    btn.dataset.panel=p.id;
+    tabs.appendChild(btn);
+  });
+}
+function activateStudyPanel(id){
+  document.querySelectorAll('.study-tab').forEach(t=>{t.classList.toggle('active',t.dataset.panel===id);});
+  document.getElementById('studyContent').innerHTML=STUDY_CONTENT[id]||'<p>Contenido en construcción</p>';
+}
+
+const STUDY_CONTENT={
+ripa:`
+<div class="study-card">
+  <h3>Reglas Fundamentales del RIPA</h3>
+  <p><strong>Regla 1 — Ámbito:</strong> El RIPA se aplica en alta mar y aguas con comunicación con ella, navegables por buques marítimos.</p>
+  <p><strong>Regla 2 — Responsabilidad:</strong> El RIPA NO exime de responsabilidad por negligencia. El buen juicio marinero siempre aplica.</p>
+  <p><strong>Regla 5 — Vigilancia:</strong> Todo buque mantendrá en todo momento una vigilancia adecuada, VISUAL Y AUDITIVA.</p>
+  <p><strong>Regla 6 — Velocidad de seguridad:</strong> Aquella que permite ejecutar maniobra adecuada para evitar abordaje. Obligatoria en visibilidad reducida.</p>
+  <p><strong>Regla 7 — Riesgo de abordaje:</strong> Existe cuando la demora del buque que se aproxima NO varía apreciablemente.</p>
+  <div class="mnemonic-box">
+    <div class="mnemonic-title">🎵 Reglas de Thomas Gray — Mnemotecnia</div>
+    <p>"Si rojo ves a tu estribor, tú debes ceder el paso."</p>
+    <p>"Verde a verde, o rojo a rojo: adelante sin enojo."</p>
+    <p>"Verde a rojo: peligro hay — virar a estribor sin dudar."</p>
+  </div>
+  <h3 style="margin-top:20px;">Situaciones de Encuentro</h3>
+  <div class="svg-wrap">
+    <svg viewBox="0 0 600 200" width="100%" style="max-width:580px;">
+      <!-- HEAD-ON -->
+      <text x="100" y="20" class="svg-title-text">VUELTA ENCONTRADA</text>
+      <path d="M60,100 L100,80 L100,120 Z" fill="#4a90e8" opacity="0.8"/>
+      <path d="M160,100 L120,80 L120,120 Z" fill="#4a90e8" opacity="0.8"/>
+      <text x="55" y="140" class="svg-label">Ambos caen a ESTRIBOR</text>
+      <path d="M60,100 Q80,110 80,130" stroke="#e8b84b" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+      <path d="M160,100 Q140,110 140,130" stroke="#e8b84b" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+      <!-- CROSSING -->
+      <text x="280" y="20" class="svg-title-text">CRUCE</text>
+      <path d="M280,100 L320,80 L320,120 Z" fill="#4dd4e8" opacity="0.8"/>
+      <path d="M360,140 L340,100 L380,100 Z" fill="#3ecf8e" opacity="0.8"/>
+      <text x="270" y="175" class="svg-label">El que ve ROJO a Estribor CEDE</text>
+      <!-- OVERTAKING -->
+      <text x="460" y="20" class="svg-title-text">ALCANCE</text>
+      <path d="M460,90 L500,75 L500,105 Z" fill="#f56565" opacity="0.8"/>
+      <path d="M480,130 L520,115 L520,145 Z" fill="#e8b84b" opacity="0.8"/>
+      <text x="450" y="175" class="svg-label">El que ALCANZA maniobra</text>
+      <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#e8b84b"/></marker></defs>
+    </svg>
+  </div>
+  <h3 style="margin-top:16px;">Orden de Prioridad de Buques</h3>
+  <ul class="priority-list">
+    <li>Buque RESTRINGIDO POR SU CALADO <span style="color:var(--text3);font-size:0.78rem;margin-left:auto;">(máxima prioridad)</span></li>
+    <li>Buque SIN GOBIERNO</li>
+    <li>Buque con MANIOBRA RESTRINGIDA</li>
+    <li>Buques de PESCA (con arte que restringe maniobra)</li>
+    <li>Buques de VELA</li>
+    <li>Buques de PROPULSIÓN MECÁNICA</li>
+    <li>HIDROAVIÓN amarado <span style="color:var(--text3);font-size:0.78rem;margin-left:auto;">(mínima prioridad)</span></li>
+  </ul>
+</div>
+<div class="study-card">
+  <h3>Canales Angostos — Reglas Clave</h3>
+  <ul>
+    <li>Navegar lo más cerca posible del límite exterior por <strong>ESTRIBOR</strong></li>
+    <li>Evitar cruzar si se estorba a buques que solo pueden navegar por el canal</li>
+    <li>Evitar fondear en canal angosto si es posible</li>
+    <li>Buques de vela y &lt;20m: NO deben estorbar al tránsito de buques mayores</li>
+    <li>Señal al acercarse a recodo: <strong>1 pitada LARGA</strong></li>
+  </ul>
+</div>`,
+
+luces:`
+<div class="study-card">
+  <h3>Arcos de Visibilidad de las Luces</h3>
+  <div class="svg-wrap">
+    <svg viewBox="0 0 500 300" width="100%" style="max-width:480px;">
+      <!-- SHIP OUTLINE -->
+      <ellipse cx="250" cy="150" rx="20" ry="50" fill="#1a2540" stroke="#4a90e8" stroke-width="1.5" opacity="0.7"/>
+      <path d="M250,100 L240,150 L260,150 Z" fill="#4a90e8" opacity="0.5"/>
+      <!-- ARC: Starboard green 112.5 -->
+      <path d="M250,150 L400,80 A160,160 0 0,0 400,220 Z" fill="rgba(62,207,142,0.15)" stroke="#3ecf8e" stroke-width="1.5"/>
+      <!-- ARC: Port red 112.5 -->
+      <path d="M250,150 L100,80 A160,160 0 0,1 100,220 Z" fill="rgba(245,101,101,0.15)" stroke="#f56565" stroke-width="1.5"/>
+      <!-- ARC: Masthead white 225 -->
+      <path d="M250,150 L130,40 A160,160 0 0,1 370,40 Z" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.3)" stroke-width="1" stroke-dasharray="4,4"/>
+      <!-- ARC: Stern white 135 -->
+      <path d="M250,150 L155,260 A160,160 0 0,0 345,260 Z" fill="rgba(232,184,75,0.1)" stroke="#e8b84b" stroke-width="1.5"/>
+      <!-- Labels -->
+      <text x="370" y="155" class="svg-label" fill="#3ecf8e">VERDE 112,5°</text>
+      <text x="30" y="155" class="svg-label" fill="#f56565">ROJO 112,5°</text>
+      <text x="210" y="30" class="svg-label" fill="rgba(200,220,255,0.6)">TOPE 225°</text>
+      <text x="205" y="290" class="svg-label" fill="#e8b84b">ALCANCE 135°</text>
+      <text x="240" y="148" class="svg-label" fill="#e8eef8" font-weight="bold">☛</text>
+    </svg>
+  </div>
+  <table>
+    <tr><th>Luz</th><th>Color</th><th>Arco</th><th>Posición</th></tr>
+    <tr><td>Costado Babor</td><td style="color:var(--red)">■ ROJA</td><td>112,5°</td><td>Izquierda (proa→22,5°popa)</td></tr>
+    <tr><td>Costado Estribor</td><td style="color:var(--green)">■ VERDE</td><td>112,5°</td><td>Derecha (proa→22,5°popa)</td></tr>
+    <tr><td>Luz de Tope</td><td style="color:#fff">■ BLANCA</td><td>225°</td><td>Tope del palo, hacia proa</td></tr>
+    <tr><td>Luz de Alcance</td><td style="color:#fff">■ BLANCA</td><td>135°</td><td>Lo más a popa posible</td></tr>
+    <tr><td>Luz de Remolque</td><td style="color:var(--gold)">■ AMARILLA</td><td>135°</td><td>Popa, sobre la de alcance</td></tr>
+    <tr><td>Todo Horizonte</td><td>Varía</td><td>360°</td><td>Fondeo, condición especial</td></tr>
+  </table>
+</div>
+<div class="study-card">
+  <h3>Luces por Tipo de Buque — Resumen Rápido</h3>
+  <table>
+    <tr><th>Tipo de Buque</th><th>Luces Especiales</th><th>Marca Diurna</th></tr>
+    <tr><td>Motor &gt;50m</td><td>2 topes (popa más alto) + costados + alcance</td><td>—</td></tr>
+    <tr><td>Motor 12-50m</td><td>1 tope + costados + alcance</td><td>—</td></tr>
+    <tr><td>Motor &lt;12m</td><td>1 blanca todo horizonte + costados</td><td>—</td></tr>
+    <tr><td>Sin gobierno</td><td>2 ROJAS todo horizonte (SIN TOPES)</td><td>2 bolas</td></tr>
+    <tr><td>Maniobra restringida</td><td>ROJA-BLANCA-ROJA todo horizonte</td><td>Bola-bicónica-bola</td></tr>
+    <tr><td>Rest. por calado</td><td>3 ROJAS todo horizonte (todo horizonte)</td><td>1 cilindro</td></tr>
+    <tr><td>Arrastre</td><td>VERDE (arriba) + BLANCA (abajo) horizonte</td><td>2 conos base-base</td></tr>
+    <tr><td>No arrastre</td><td>ROJA (arriba) + BLANCA (abajo) horizonte</td><td>2 conos vértice-vértice</td></tr>
+    <tr><td>Remolque &gt;200m</td><td>3 topes vertical + remolque (amarilla)</td><td>Bicónica</td></tr>
+    <tr><td>Práctico</td><td>BLANCA (arriba) + ROJA (abajo) horizonte</td><td>Bandera Hotel</td></tr>
+    <tr><td>Fondeado</td><td>Blanca todo horizonte</td><td>1 bola</td></tr>
+    <tr><td>Varado</td><td>Fondeo + 2 rojas horizonte</td><td>3 bolas</td></tr>
+  </table>
+</div>`,
+
+fondeo:`
+<div class="study-card">
+  <h3>Partes del Ancla</h3>
+  <div class="svg-wrap">
+    <svg viewBox="0 0 400 300" width="100%" style="max-width:400px;">
+      <!-- Anchor drawing -->
+      <!-- Arganeo (ring at top) -->
+      <ellipse cx="200" cy="30" rx="25" ry="15" fill="none" stroke="#4a90e8" stroke-width="3"/>
+      <text x="240" y="35" class="svg-label" fill="#4a90e8">ARGANEO</text>
+      <!-- Caña (shank) -->
+      <line x1="200" y1="45" x2="200" y2="200" stroke="#e8b84b" stroke-width="5"/>
+      <text x="215" y="120" class="svg-label" fill="#e8b84b">CAÑA</text>
+      <!-- Cruz (crown) -->
+      <ellipse cx="200" cy="200" rx="12" ry="8" fill="#f56565"/>
+      <text x="220" y="205" class="svg-label" fill="#f56565">CRUZ</text>
+      <!-- Left arm and fluke -->
+      <line x1="200" y1="200" x2="120" y2="240" stroke="#3ecf8e" stroke-width="4"/>
+      <path d="M110,255 L130,225 L150,250 Z" fill="#3ecf8e"/>
+      <text x="60" y="270" class="svg-label" fill="#3ecf8e">UÑA/PALMA</text>
+      <!-- Right arm and fluke -->
+      <line x1="200" y1="200" x2="280" y2="240" stroke="#3ecf8e" stroke-width="4"/>
+      <path d="M290,255 L270,225 L250,250 Z" fill="#3ecf8e"/>
+      <text x="290" y="260" class="svg-label" fill="#3ecf8e">BRAZO</text>
+      <!-- Stock (for Almirantazgo) -->
+      <line x1="150" y1="80" x2="250" y2="80" stroke="#a78bfa" stroke-width="3" stroke-dasharray="6,3"/>
+      <text x="255" y="84" class="svg-label" fill="#a78bfa">CEPO*</text>
+      <text x="10" y="295" class="svg-label" fill="#5f7394">*Solo ancla de Almirantazgo</text>
+    </svg>
+  </div>
+  <h3 style="margin-top:16px;">Tipos de Anclas</h3>
+  <table>
+    <tr><th>Tipo</th><th>Características</th><th>Uso</th></tr>
+    <tr><td>Almirantazgo</td><td>Cepo FIJO perpendicular a la caña</td><td>Buques históricos, embarcaciones clásicas</td></tr>
+    <tr><td>Hall</td><td>Sin cepo, brazos articulados plegables</td><td>Buques mercantes grandes (más común)</td></tr>
+    <tr><td>Danforth</td><td>Gran superficie de uñas, excelente en blando</td><td>Veleros, embarcaciones recreo, fondos blandos</td></tr>
+    <tr><td>CQR/Arado</td><td>Forma de arado, pivota en el fondo</td><td>Veleros, fondos variados</td></tr>
+  </table>
+</div>
+<div class="study-card">
+  <h3>La Cadena del Ancla y sus Componentes</h3>
+  <div class="svg-wrap">
+    <svg viewBox="0 0 500 120" width="100%" style="max-width:480px;">
+      <!-- Chain links with stud -->
+      <g transform="translate(20,30)">
+        <!-- Link 1 (oval) -->
+        <ellipse cx="30" cy="30" rx="28" ry="18" fill="none" stroke="#e8b84b" stroke-width="3"/>
+        <line x1="2" y1="30" x2="58" y2="30" stroke="#e8b84b" stroke-width="2.5"/>
+        <text x="18" y="65" class="svg-label" fill="#e8b84b">Eslabón</text>
+        <!-- Link 2 rotated -->
+        <ellipse cx="88" cy="30" rx="18" ry="28" fill="none" stroke="#4dd4e8" stroke-width="3"/>
+        <line x1="88" y1="2" x2="88" y2="58" stroke="#4dd4e8" stroke-width="2.5"/>
+        <text x="76" y="65" class="svg-label" fill="#4dd4e8">Contrete</text>
+        <!-- Kenter joining shackle -->
+        <rect x="120" y="15" width="40" height="30" rx="6" fill="#1a2540" stroke="#3ecf8e" stroke-width="2.5"/>
+        <circle cx="125" cy="30" r="5" fill="none" stroke="#3ecf8e" stroke-width="2"/>
+        <circle cx="155" cy="30" r="5" fill="none" stroke="#3ecf8e" stroke-width="2"/>
+        <text x="118" y="65" class="svg-label" fill="#3ecf8e">Kenter/Unión</text>
+        <!-- Swivel -->
+        <rect x="185" y="18" width="35" height="24" rx="12" fill="none" stroke="#f56565" stroke-width="2.5"/>
+        <circle cx="202" cy="30" r="6" fill="#f56565" opacity="0.5"/>
+        <text x="183" y="65" class="svg-label" fill="#f56565">Giratorio</text>
+        <!-- Entalingadura shackle -->
+        <path d="M240,30 Q240,10 260,10 Q280,10 280,30 Q280,50 260,50 Q240,50 240,30 Z" fill="none" stroke="#a78bfa" stroke-width="2.5"/>
+        <line x1="255" y1="10" x2="265" y2="10" stroke="#a78bfa" stroke-width="3"/>
+        <text x="230" y="65" class="svg-label" fill="#a78bfa">Entalingadura</text>
+        <!-- Anchor icon -->
+        <text x="310" y="35" style="font-size:24px;">⚓</text>
+        <text x="308" y="65" class="svg-label" fill="#94a3be">Ancla</text>
+      </g>
+    </svg>
+  </div>
+  <h3 style="margin-top:16px;">Datos Clave del Fondeo</h3>
+  <div class="badge-row">
+    <span class="badge badge-gold">1 grillete = 27,5 m</span>
+    <span class="badge badge-blue">1 grillete = 27 eslabones</span>
+    <span class="badge badge-green">Profundidad 20m → 3-5 grilletes</span>
+  </div>
+  <h3 style="margin-top:16px;">Posiciones del Ancla</h3>
+  <div class="signal-grid">
+    <span class="signal-code">En el escobén</span><span class="signal-meaning">Posición de reposo (guardada en el tubo del casco)</span>
+    <span class="signal-code">A pique</span><span class="signal-meaning">Recién despegada del fondo, cadena vertical</span>
+    <span class="signal-code">A la pendura</span><span class="signal-meaning">Fuera del agua, entre superficie y escobén</span>
+    <span class="signal-code">A flor de agua</span><span class="signal-meaning">Ancla visible en la superficie del agua</span>
+  </div>
+</div>`,
+
+cubierta:`
+<div class="study-card">
+  <h3>Equipos Principales de Cubierta</h3>
+  <table>
+    <tr><th>Equipo</th><th>Eje/Tipo</th><th>Función</th></tr>
+    <tr><td>Cabrestante (Capstan)</td><td>VERTICAL</td><td>Jalar cabos de amarre, anclas pequeñas</td></tr>
+    <tr><td>Molinete (Windlass)</td><td>HORIZONTAL</td><td>Izar cadena y ancla (tiene barbotín)</td></tr>
+    <tr><td>Malacate</td><td>Horizontal</td><td>Sinónimo americano de molinete/winche</td></tr>
+    <tr><td>Winche de cubierta</td><td>Variable</td><td>Izar cargas, redes, equipos varios</td></tr>
+    <tr><td>Bitas</td><td>—</td><td>Dos postes dobles para amarrar cabos</td></tr>
+    <tr><td>Cornamusa (Cleat)</td><td>—</td><td>2 cuernos para cabos menores (drizas)</td></tr>
+    <tr><td>Escobén (Hawse pipe)</td><td>—</td><td>Tubo en proa por donde sale la cadena</td></tr>
+    <tr><td>Gatera (Fairlead)</td><td>—</td><td>Guía en borda para cabos de amarre</td></tr>
+    <tr><td>Roletes (Rollers)</td><td>—</td><td>Cilindros giratorios reducen fricción</td></tr>
+    <tr><td>Barbotín</td><td>—</td><td>Rueda dentada del molinete para cadena</td></tr>
+  </table>
+</div>
+<div class="study-card">
+  <h3>Instrumentos del Puente de Mando</h3>
+  <table>
+    <tr><th>Instrumento</th><th>Función</th></tr>
+    <tr><td>Girocompás</td><td>Norte geográfico electrónico (no afectado por metal)</td></tr>
+    <tr><td>Barómetro</td><td>Presión atmosférica (predice meteorología)</td></tr>
+    <tr><td>Estadímetro</td><td>Distancia a objetivo de altura conocida</td></tr>
+    <tr><td>Vista clara</td><td>Disco giratorio para visibilidad con lluvia</td></tr>
+    <tr><td>Telégrafo de máquinas</td><td>Órdenes de velocidad a sala de máquinas</td></tr>
+    <tr><td>Pito marinero</td><td>Transmite órdenes de maniobra a tripulación</td></tr>
+  </table>
+</div>`,
+
+sondaleza:`
+<div class="study-card">
+  <h3>La Sondaleza (Lead Line)</h3>
+  <p>Línea de cáñamo con una plomada de plomo en el extremo. Se usa para medir profundidad manualmente. <strong>1 braza = 1,829 metros</strong>.</p>
+  <div class="svg-wrap">
+    <svg viewBox="0 0 300 380" width="100%" style="max-width:280px;">
+      <!-- Rope -->
+      <line x1="150" y1="10" x2="150" y2="340" stroke="#e8b84b" stroke-width="3"/>
+      <!-- Lead weight -->
+      <path d="M130,340 L150,360 L170,340 Z" fill="#94a3be"/>
+      <ellipse cx="150" cy="338" rx="16" ry="8" fill="#6b7280"/>
+      <text x="175" y="355" class="svg-label" fill="#94a3be">PLOMADA</text>
+      <!-- Marks at each depth -->
+      <!-- 2 fathoms = 2 leather strips -->
+      <g transform="translate(0,-50)">
+        <rect x="143" y="95" width="4" height="14" fill="#a78bfa" rx="1"/>
+        <rect x="150" y="95" width="4" height="14" fill="#a78bfa" rx="1"/>
+        <text x="165" y="106" class="svg-label" fill="#a78bfa">2 bz: 2 cueros</text>
+      </g>
+      <!-- 5 fathoms = white -->
+      <rect x="140" y="120" width="20" height="10" fill="white" rx="2" opacity="0.9"/>
+      <text x="165" y="129" class="svg-label" fill="white">5 bz: tela BLANCA</text>
+      <!-- 7 fathoms = red -->
+      <rect x="140" y="168" width="20" height="10" fill="#f56565" rx="2"/>
+      <text x="165" y="177" class="svg-label" fill="#f56565">7 bz: tela ROJA</text>
+      <!-- 10 fathoms = leather with hole -->
+      <ellipse cx="150" cy="220" rx="10" ry="6" fill="#8b6914" stroke="#e8b84b" stroke-width="1.5"/>
+      <circle cx="150" cy="220" r="3" fill="none" stroke="#e8b84b" stroke-width="1.5"/>
+      <text x="165" y="224" class="svg-label" fill="#e8b84b">10 bz: cuero+agujero</text>
+      <!-- 13 fathoms = blue -->
+      <rect x="140" y="270" width="20" height="10" fill="#4a90e8" rx="2"/>
+      <text x="165" y="279" class="svg-label" fill="#4a90e8">13 bz: tela AZUL</text>
+      <!-- 15 fathoms = white again -->
+      <rect x="140" y="310" width="20" height="10" fill="white" rx="2" opacity="0.9"/>
+      <text x="165" y="319" class="svg-label" fill="white">15 bz: tela BLANCA</text>
+    </svg>
+  </div>
+  <h3>Tabla de Marcas de la Sondaleza</h3>
+  <table>
+    <tr><th>Brazas</th><th>Marca</th><th>Material/Color</th></tr>
+    <tr><td>2</td><td>2 tiras de cuero</td><td>Identificable al tacto</td></tr>
+    <tr><td>3</td><td>3 tiras de cuero</td><td>Identificable al tacto</td></tr>
+    <tr><td>5</td><td>Tela blanca</td><td>Blanco</td></tr>
+    <tr><td>7</td><td>Tela roja</td><td>Rojo</td></tr>
+    <tr><td>10</td><td>Cuero con agujero</td><td>Cuero perforado</td></tr>
+    <tr><td>13</td><td>Tela azul</td><td>Azul (serge)</td></tr>
+    <tr><td>15</td><td>Tela blanca</td><td>Blanco (se repite)</td></tr>
+    <tr><td>17</td><td>Tela roja</td><td>Rojo (se repite)</td></tr>
+    <tr><td>20</td><td>2 nudos / 2 agujeros</td><td>Nudos en la línea</td></tr>
+    <tr><td>25</td><td>1 nudo + cuero</td><td>Combinación</td></tr>
+    <tr><td>30</td><td>3 nudos</td><td>3 nudos en la línea</td></tr>
+  </table>
+</div>`,
+
+señales:`
+<div class="study-card">
+  <h3>Señales de Maniobra entre Buques a la Vista</h3>
+  <div class="signal-grid">
+    <span class="signal-code">● (1 corta)</span><span class="signal-meaning">Caigo a ESTRIBOR</span>
+    <span class="signal-code">●● (2 cortas)</span><span class="signal-meaning">Caigo a BABOR</span>
+    <span class="signal-code">●●● (3 cortas)</span><span class="signal-meaning">Estoy dando ATRÁS</span>
+    <span class="signal-code">▬▬● (2 largas + 1 corta)</span><span class="signal-meaning">Pretendo alcanzarle por su ESTRIBOR</span>
+    <span class="signal-code">▬▬●● (2 largas + 2 cortas)</span><span class="signal-meaning">Pretendo alcanzarle por su BABOR</span>
+    <span class="signal-code">▬●▬● (largo-corto-largo-corto)</span><span class="signal-meaning">CONFORME en que me alcance</span>
+    <span class="signal-code">●●●●● (5 rápidas)</span><span class="signal-meaning">No entiendo sus intenciones / PELIGRO</span>
+    <span class="signal-code">▬ (1 larga)</span><span class="signal-meaning">Acercándome a recodo en canal angosto</span>
+  </div>
+</div>
+<div class="study-card">
+  <h3>Señales en Visibilidad Reducida (Niebla)</h3>
+  <div class="signal-grid">
+    <span class="signal-code">▬ /2min</span><span class="signal-meaning">Motor CON arrancada</span>
+    <span class="signal-code">▬▬ /2min</span><span class="signal-meaning">Motor SIN arrancada</span>
+    <span class="signal-code">Ω Ω Ω Ω Ω /min</span><span class="signal-meaning">Buque FONDEADO (campana 5 seg)</span>
+    <span class="signal-code">●▬● /2min</span><span class="signal-meaning">Velero/pesquero/problemas</span>
+    <span class="signal-code">●●●● (4 cortas)</span><span class="signal-meaning">Embarcación de PRÁCTICO</span>
+    <span class="signal-code">Ω+●●●●</span><span class="signal-meaning">Práctico FONDEADO</span>
+  </div>
+  <h3 style="margin-top:16px;">Señales de Peligro y Socorro (Anexo IV)</h3>
+  <ul>
+    <li>🔴 Cohetes con ESTRELLAS ROJAS a intervalos</li>
+    <li>📻 SOS por radiotelegrafía / MAYDAY por radiofonía</li>
+    <li>🏴 Bandera cuadrada + bola u objeto análogo</li>
+    <li>🟠 Señal fumígena de color NARANJA</li>
+    <li>💪 Movimientos lentos de brazos extendidos arriba-abajo</li>
+    <li>🚨 Señal NC del Código Internacional de Señales</li>
+    <li>🔦 Bengala roja (cohete-bengala con paracaídas)</li>
+  </ul>
+</div>`,
+
+veleros:`
+<div class="study-card">
+  <h3>Aparejos del Velero</h3>
+  <div class="svg-wrap">
+    <svg viewBox="0 0 300 320" width="100%" style="max-width:280px;">
+      <!-- Hull -->
+      <path d="M50,260 Q80,270 150,272 Q220,270 250,260 L240,240 L60,240 Z" fill="#1a2540" stroke="#4a90e8" stroke-width="2"/>
+      <!-- Mast -->
+      <line x1="150" y1="40" x2="150" y2="240" stroke="#e8b84b" stroke-width="4"/>
+      <!-- Main sail -->
+      <path d="M150,50 L230,200 L150,200 Z" fill="rgba(255,255,255,0.1)" stroke="white" stroke-width="1.5"/>
+      <!-- Jib (foresail) -->
+      <path d="M150,80 L80,200 L150,200 Z" fill="rgba(77,212,232,0.1)" stroke="#4dd4e8" stroke-width="1.5"/>
+      <!-- Boom (botavara) -->
+      <line x1="150" y1="200" x2="240" y2="210" stroke="#3ecf8e" stroke-width="3"/>
+      <!-- Forestay -->
+      <line x1="150" y1="45" x2="70" y2="240" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <!-- Shrouds (obenques) -->
+      <line x1="150" y1="60" x2="60" y2="195" stroke="#f56565" stroke-width="1.5"/>
+      <line x1="150" y1="60" x2="240" y2="195" stroke="#f56565" stroke-width="1.5"/>
+      <!-- Backstay -->
+      <line x1="150" y1="45" x2="245" y2="240" stroke="#e8b84b" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <!-- Bauprés -->
+      <line x1="80" y1="245" x2="30" y2="225" stroke="#4dd4e8" stroke-width="3"/>
+      <!-- Labels -->
+      <text x="155" y="120" class="svg-label" fill="#e8b84b">MÁSTIL</text>
+      <text x="195" y="130" class="svg-label" fill="rgba(200,200,200,0.8)">Vela Mayor</text>
+      <text x="40" y="150" class="svg-label" fill="#4dd4e8">Foque</text>
+      <text x="200" y="218" class="svg-label" fill="#3ecf8e">BOTAVARA</text>
+      <text x="20" y="210" class="svg-label" fill="#a78bfa">Estay</text>
+      <text x="15" y="195" class="svg-label" fill="#f56565">Obenques</text>
+      <text x="10" y="230" class="svg-label" fill="#4dd4e8">Bauprés</text>
+    </svg>
+  </div>
+  <h3>Vocabulario del Velero</h3>
+  <table>
+    <tr><th>Término</th><th>Descripción</th></tr>
+    <tr><td>Jarcia firme</td><td>Aparejo FIJO que sostiene mástiles (obenques, estays)</td></tr>
+    <tr><td>Jarcia de labor</td><td>Aparejo MÓVIL para maniobrar velas (drizas, escotas)</td></tr>
+    <tr><td>Obenques</td><td>Cables laterales que sujetan el mástil a los costados</td></tr>
+    <tr><td>Estay de proa</td><td>Cable del tope del mástil a la proa (sujeta hacia adelante)</td></tr>
+    <tr><td>Backstay</td><td>Cable del tope del mástil a la popa (sujeta hacia atrás)</td></tr>
+    <tr><td>Botavara</td><td>Palo horizontal en base del mástil (soporte vela mayor)</td></tr>
+    <tr><td>Bauprés</td><td>Palo inclinado hacia proa (soporte foques/génova)</td></tr>
+    <tr><td>Driza</td><td>Cabo de labor para IZAR velas</td></tr>
+    <tr><td>Escota</td><td>Cabo de labor para ORIENTAR/TRIMEAR velas</td></tr>
+    <tr><td>Génova/Foque</td><td>Vela de proa grande/pequeña</td></tr>
+    <tr><td>Spinnaker</td><td>Vela globo colorida para vientos de popa</td></tr>
+  </table>
+  <div class="mnemonic-box">
+    <div class="mnemonic-title">⛵ Velero con Motor = Buque de Propulsión Mecánica</div>
+    <p>Si el velero tiene el motor encendido, se clasifica como buque de PROPULSIÓN MECÁNICA según el RIPA. Debe mostrar el cono con vértice hacia abajo de día.</p>
+  </div>
+</div>`
+};
+
+// ═══════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════
+function showScreen(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  window.scrollTo(0,0);
+}
+function goHome(){showScreen('home');}
+function launchConfetti(){
+  const wrap=document.getElementById('confettiWrap');
+  wrap.innerHTML='';
+  const colors=['#e8b84b','#4a90e8','#3ecf8e','#f56565','#4dd4e8','#f5d07a'];
+  for(let i=0;i<80;i++){
+    const p=document.createElement('div');
+    p.className='confetti-piece';
+    const s=Math.random()*8+4;
+    const c=colors[Math.floor(Math.random()*colors.length)];
+    const l=Math.random()*100;
+    const d=Math.random()*3;
+    const dur=Math.random()*3+2;
+    const dx=(Math.random()-0.5)*600;
+    const dr=Math.random()*720-360;
+    p.style.cssText=`left:${l}%;width:${s}px;height:${s}px;background:${c};border-radius:${Math.random()>0.5?'50%':'2px'};--dur:${dur}s;animation-delay:${d}s;--dx:${dx}px;--dr:${dr}deg;`;
+    wrap.appendChild(p);
+  }
+  setTimeout(()=>wrap.innerHTML='',6000);
+}
+document.addEventListener('keydown',(e)=>{
+  if(document.getElementById('screen-quiz').classList.contains('active')){
+    if(e.key==='Escape')exitQuiz();
+    if(e.key==='Enter'&&state.answered)nextQuestion();
+    if(['1','2','3','4'].includes(e.key)&&!state.answered)selectAnswer(parseInt(e.key)-1);
+  }
+});
+// INIT
+initHome();
+document.querySelector('[data-mode="quick"]').classList.add('selected');
+</script>
+</body>
+</html>
